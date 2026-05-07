@@ -1,0 +1,25 @@
+#Github action that make CI for .Net part
+
+name: Dotnet CI
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v4
+      - name: Setup .Net Core
+        uses: action/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install dependencies
+        run: dotnet restore ./UDBF-Race-Flow/UDBF-Race-Flow.slnx
+
+      - name: Build
+        run: dotnet build ./UDBF-Race-Flow/UDBF-Race-Flow.slnx --configuration Release --no-restore
