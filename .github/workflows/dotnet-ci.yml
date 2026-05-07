@@ -1,0 +1,47 @@
+#Github action that make CI for .Net part
+
+name: Dotnet CI
+
+on:
+  push:
+    branches:
+      - "dev"
+      - "main"
+  pull_request:
+    branches:
+      - "dev"
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Сheckout
+      - uses: actions/checkout@v4
+
+      # 2. Setup
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      # 3. Restore
+      - name: Install dependencies
+        run: dotnet restore ./UDBF-Race-Flow/UDBF-Race-Flow.slnx
+
+      # 4. Lint
+      - name: Lint check
+        run: dotnet format ./UDBF-Race-Flow/UDBF-Race-Flow.slnx --verify-no-changes --no-restore
+
+      # 5. Build
+      - name: Build
+        run: dotnet build ./UDBF-Race-Flow/UDBF-Race-Flow.slnx --configuration Release --no-restore
+
+      # 6. Test
+      - name: Test
+        run: dotnet test ./UDBF-Race-Flow/UDBF-Race-Flow.slnx --configuration Release --no-build --verbosity normal
+
+      # 7. Security Scan
+      - name: Security Scan
+        run: dotnet list ./UDBF-Race-Flow/UDBF-Race-Flow.slnx package --vulnerable
