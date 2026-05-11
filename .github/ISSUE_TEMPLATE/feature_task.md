@@ -1,15 +1,15 @@
+---
 name: Feature Task
 about: Template for developing new functionality
-title: '[FEAT]:'
+title: "[FEAT]: "
 labels: feature
-
 ---
 
 ## 📝 Description
 
 ## 🛠 Technical Plan
 
-- [ ]
+- [ ] Create domain models
 - [ ] Add `Unit tests`
 
 ## ✅ Acceptance Criteria
