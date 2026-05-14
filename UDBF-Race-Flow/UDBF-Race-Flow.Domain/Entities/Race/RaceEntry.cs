@@ -1,6 +1,21 @@
-﻿namespace UDBF_Race_Flow.Domain.Entities.Race
+﻿using System.ComponentModel.DataAnnotations;
+using UDBF_Race_Flow.Domain.Entities.Team;
+
+namespace UDBF_Race_Flow.Domain.Entities.Race
 {
-    internal class RaceEntry
+
+    public class RaceEntry
     {
+        [Key]
+        public Guid Id { get; set; }
+
+        [Range(1, 7)]
+        public int StartLane { get; set; }
+        public int FinishPlace { get; set; }
+        public TimeSpan FinishTime { get; set; }
+        public Guid RaceId { get; set; }
+        public RaceData Race { get; set; } = null!;
+        public Guid TeamId { get; set; }
+        public TeamData Team { get; set; } = null!;
     }
 }

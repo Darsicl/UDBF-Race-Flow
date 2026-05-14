@@ -1,6 +1,10 @@
-﻿namespace UDBF_Race_Flow.Domain.Enums
+﻿namespace UDBFRaceFlow.Domain.Enums
 {
-    internal class RaceType
+    public enum RaceType
     {
+        Heat = 1,
+        Semifinal = 2,
+        Final = 3,
+        Round = 4
     }
 }

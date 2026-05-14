@@ -1,4 +1,4 @@
-﻿namespace UDBF_Race_Flow.Domain.Enums
+﻿namespace UDBFRaceFlow.Domain.Enums
 {
     public enum RaceStatus
     {
