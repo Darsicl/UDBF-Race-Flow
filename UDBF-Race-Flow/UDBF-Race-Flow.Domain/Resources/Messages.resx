@@ -117,11 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error DistanceRange" xml:space="preserve">
-    <value>Distance should be between {0} and {1}</value>
-  </data>
-  <data name="Error StartLaneRange" xml:space="preserve">
-    <value>StartLane should be between between {0} and {1}</value>
+  <data name="Error Range" xml:space="preserve">
+    <value>{0} should be between {1} and {2}</value>
   </data>
   <data name="Error PropertyIsRequired" xml:space="preserve">
     <value>Property {0} is Required</value>

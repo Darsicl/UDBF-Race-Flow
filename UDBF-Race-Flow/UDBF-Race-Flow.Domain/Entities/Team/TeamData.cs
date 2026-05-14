@@ -9,9 +9,9 @@ namespace UDBFRaceFlow.Domain.Entities.Team
         [Key]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = Messages.Error_TeamNameIsRequired)]
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = nameof(Messages.Error_PropertyIsRequired))]
         public string Name { get; set; } = string.Empty;
 
-        public List<RaceEntry> RaceEntries = [];
+        public List<RaceEntry> RaceEntries { get; set; }
     }
 }
