@@ -123,4 +123,7 @@
   <data name="Error PropertyIsRequired" xml:space="preserve">
     <value>Property {0} is Required</value>
   </data>
+  <data name="Error MaxLenght" xml:space="preserve">
+    <value>Max length of {0} property is {1}</value>
+  </data>
 </root>

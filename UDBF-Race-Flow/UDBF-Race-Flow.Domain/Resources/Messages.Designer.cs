@@ -61,6 +61,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max length of {0} property is {1}.
+        /// </summary>
+        public static string Error_MaxLenght {
+            get {
+                return ResourceManager.GetString("Error MaxLenght", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Property {0} is Required.
         /// </summary>
         public static string Error_PropertyIsRequired {
