@@ -1,19 +1,26 @@
-﻿using UDBF_Race_Flow.Domain.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using UDBFRaceFlow.Domain.Enums;
 
-namespace UDBF_Race_Flow.Domain.Entities.Race
+namespace UDBFRaceFlow.Domain.Entities.Race
 {
     public class RaceData
     {
+        [Key]
         public Guid Id { get; set; }
 
         public string? BoatSize { get; set; }
 
+        [Range(200, 2000)]
         public int Distance { get; set; }
 
         public GenderCategory GenderCategory { get; set; }
 
         public RaceStatus RaceStatus { get; set; }
+
         public RaceType RaceType { get; set; }
 
+        [ForeignKey]
+        public List<RaceEntry> RaceEntries = [];
     }
 }
