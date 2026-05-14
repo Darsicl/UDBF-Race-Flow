@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Domain.Entities.Team
@@ -11,7 +10,6 @@ namespace UDBFRaceFlow.Domain.Entities.Team
 
         public string Name { get; set; } = string.Empty;
 
-        [ForeignKey]
         public List<RaceEntry> RaceEntries = [];
     }
 }

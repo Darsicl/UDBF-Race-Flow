@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using UDBFRaceFlow.Domain.Enums;
 
 namespace UDBFRaceFlow.Domain.Entities.Race
@@ -20,7 +19,6 @@ namespace UDBFRaceFlow.Domain.Entities.Race
 
         public RaceType RaceType { get; set; }
 
-        [ForeignKey]
         public List<RaceEntry> RaceEntries = [];
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using UDBFRaceFlow.Domain.Entities.Team;
 
 namespace UDBFRaceFlow.Domain.Entities.Race
@@ -17,12 +16,10 @@ namespace UDBFRaceFlow.Domain.Entities.Race
 
         public TimeSpan FinishTime { get; set; }
 
-        [ForeignKey]
         public Guid RaceId { get; set; }
 
         public RaceData Race { get; set; } = null!;
 
-        [ForeignKey]
         public Guid TeamId { get; set; }
 
         public TeamData Team { get; set; } = null!;
