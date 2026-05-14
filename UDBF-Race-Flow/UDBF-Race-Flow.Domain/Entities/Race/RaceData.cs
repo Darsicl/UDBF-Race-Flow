@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using UDBFRaceFlow.Domain.Enums;
+using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Domain.Entities.Race
 {
@@ -8,9 +9,10 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         [Key]
         public Guid Id { get; set; }
 
-        public string? BoatSize { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = nameof(Messages.Error_PropertyIsRequired))]
+        public string BoatSize { get; set; } = string.Empty;
 
-        [Range(200, 2000)]
+        [Range(200, 2000, ErrorMessageResourceName = Messages.Error_DistanceRange, ErrorMessageResourceType = typeof(Messages)]
         public int Distance { get; set; }
 
         public GenderCategory GenderCategory { get; set; }

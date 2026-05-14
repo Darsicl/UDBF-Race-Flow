@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using UDBFRaceFlow.Domain.Entities.Team;
+using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Domain.Entities.Race
 {
@@ -9,7 +10,7 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         [Key]
         public Guid Id { get; set; }
 
-        [Range(1, 7)]
+        [Range(1, 7, ErrorMessageResourceName = Messages.Error_StartLaneRange, ErrorMessageResourceType = typeof(Messages))]
         public int StartLane { get; set; }
 
         public int FinishPlace { get; set; }

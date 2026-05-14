@@ -61,11 +61,29 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to StartLane should be between {0} and {1}.
+        ///   Looks up a localized string similar to Distance should be between {0} and {1}.
         /// </summary>
-        public static string _Error_StartLaneshouldbebetween {
+        public static string Error_DistanceRange {
             get {
-                return ResourceManager.GetString(" Error StartLaneshouldbebetween", resourceCulture);
+                return ResourceManager.GetString("Error DistanceRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property {0} is Required.
+        /// </summary>
+        public static string Error_PropertyIsRequired {
+            get {
+                return ResourceManager.GetString("Error PropertyIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StartLane should be between between {0} and {1}.
+        /// </summary>
+        public static string Error_StartLaneRange {
+            get {
+                return ResourceManager.GetString("Error StartLaneRange", resourceCulture);
             }
         }
     }
