@@ -28,20 +28,20 @@ jobs:
 
       # 3. Restore
       - name: Install dependencies
-        run: dotnet restore ./UDBF-Race-Flow/UDBF-Race-Flow.slnx
+        run: dotnet restore ./UDBFRaceFlow/UDBFRaceFlow.slnx
 
       # 4. Lint
       - name: Lint check
-        run: dotnet format ./UDBF-Race-Flow/UDBF-Race-Flow.slnx --verify-no-changes --no-restore
+        run: dotnet format ./UDBFRaceFlow/UDBFRaceFlow.slnx --verify-no-changes --no-restore
 
       # 5. Build
       - name: Build
-        run: dotnet build ./UDBF-Race-Flow/UDBF-Race-Flow.slnx --configuration Release --no-restore
+        run: dotnet build ./UDBFRaceFlow/UDBFRaceFlow.slnx --configuration Release --no-restore
 
       # 6. Test
       - name: Test
-        run: dotnet test ./UDBF-Race-Flow/UDBF-Race-Flow.slnx --configuration Release --no-build --verbosity normal
+        run: dotnet test ./UDBFRaceFlow/UDBFRaceFlow.slnx --configuration Release --no-build --verbosity normal
 
       # 7. Security Scan
       - name: Security Scan
-        run: dotnet list ./UDBF-Race-Flow/UDBF-Race-Flow.slnx package --vulnerable
+        run: dotnet list ./UDBFRaceFlow/UDBFRaceFlow.slnx package --vulnerable
