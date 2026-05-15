@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="UDBFRaceFlow.Application/UDBFRaceFlow.Application.csproj" Id="d7424302-5af8-46b5-9ae0-5d98fbd54b16" />
+  <Project Path="UDBFRaceFlow.Domain/UDBFRaceFlow.Domain.csproj" Id="db3867e4-3952-4718-83c3-71bb55e86906" />
+  <Project Path="UDBFRaceFlow.Infrastructure/UDBFRaceFlow.Infrastructure.csproj" Id="bd58381e-dacf-4943-b812-2c0785fe108e" />
+  <Project Path="UDBFRaceFlow.WebApi/UDBFRaceFlow.WebApi.csproj" />
+</Solution>
