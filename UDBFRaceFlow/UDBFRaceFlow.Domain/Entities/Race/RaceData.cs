@@ -9,6 +9,10 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         public Guid Id { get; set; }
 
         [Required]
+        public int RaceNumber { get; set; }
+
+        [Required]
+        [MaxLength(7)]
         public string BoatSize { get; set; } = string.Empty;
 
         [Range(200, 2000)]
