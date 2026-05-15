@@ -14,9 +14,11 @@ namespace UDBFRaceFlow.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(RaceDbContext).Assembly);
+
+
             base.OnModelCreating(modelBuilder);
-
-
         }
     }
 }
