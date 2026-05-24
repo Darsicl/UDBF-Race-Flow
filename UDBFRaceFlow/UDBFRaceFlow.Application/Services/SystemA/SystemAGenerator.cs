@@ -4,7 +4,7 @@ using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 
-namespace UDBFRaceFlow.Application.Services
+namespace UDBFRaceFlow.Application.Services.SystemA
 {
     public class SystemAGenerator : ISystemGenerator
     {
@@ -26,7 +26,7 @@ namespace UDBFRaceFlow.Application.Services
             foreach (RaceCreationDto raceDto in fullGridDto.Races)
             {
 
-                RaceData raceEntity = new RaceData
+                RaceData race = new RaceData
                 {
                     Id = Guid.NewGuid(),
                     BoatSize = fullGridDto.BoatSize,
@@ -36,6 +36,7 @@ namespace UDBFRaceFlow.Application.Services
                     RaceType = raceDto.RaceType,
                     RaceNumber = raceDto.RaceNumber,
                     RaceTime = raceDto.RaceTime,
+                    SequenceNumber = raceDto.SequenceNumber,
                     RaceEntries = new List<RaceEntry>()
                 };
 
@@ -46,13 +47,13 @@ namespace UDBFRaceFlow.Application.Services
                         Id = Guid.NewGuid(),
                         TeamId = raceEntry.TeamId,
                         StartLane = raceEntry.StartLane,
-                        RaceId = raceEntity.Id
+                        RaceId = race.Id
                     };
 
-                    raceEntry
+                    race.RaceEntries.Add(entry);
                 }
 
-                await _raceRepository.AddAsync(raceEntity);
+                await _raceRepository.AddAsync(race);
             }
 
 

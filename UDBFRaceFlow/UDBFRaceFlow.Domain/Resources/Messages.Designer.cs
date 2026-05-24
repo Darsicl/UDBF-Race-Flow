@@ -61,7 +61,16 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max length of {0} property is {1}.
+        ///   Looks up a localized string similar to Race 1 must be earlier than Race 2.
+        /// </summary>
+        public static string Error_Chronological {
+            get {
+                return ResourceManager.GetString("Error_Chronological", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {PropertyName} cannot be greater than {ComparisonValue}..
         /// </summary>
         public static string Error_MaxLenght {
             get {
@@ -70,20 +79,20 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Property {0} is Required.
+        ///   Looks up a localized string similar to {PropertyName} cannot be less than {ComparisonValue}..
         /// </summary>
-        public static string Error_PropertyIsRequired {
+        public static string Error_MinLength {
             get {
-                return ResourceManager.GetString("Error PropertyIsRequired", resourceCulture);
+                return ResourceManager.GetString("Error MinLength", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} should be between {1} and {2}.
+        ///   Looks up a localized string similar to Property {PropertyName} is Required.
         /// </summary>
-        public static string Error_Range {
+        public static string Error_PropertyIsRequired {
             get {
-                return ResourceManager.GetString("Error Range", resourceCulture);
+                return ResourceManager.GetString("Error PropertyIsRequired", resourceCulture);
             }
         }
     }
