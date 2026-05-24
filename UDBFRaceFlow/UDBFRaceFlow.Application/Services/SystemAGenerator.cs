@@ -19,10 +19,14 @@ namespace UDBFRaceFlow.Application.Services
 
         public async Task BuildGrid(CreateFullGridDto fullGridDto)
         {
+            List<RaceCreationDto> sortRaces = fullGridDto.Races
+                .OrderBy(r => r.RaceNumber)
+                .ToList();
+
             foreach (RaceCreationDto raceDto in fullGridDto.Races)
             {
 
-                RaceData firstHeat = new RaceData
+                RaceData raceEntity = new RaceData
                 {
                     Id = Guid.NewGuid(),
                     BoatSize = fullGridDto.BoatSize,
@@ -31,10 +35,24 @@ namespace UDBFRaceFlow.Application.Services
                     RaceStatus = RaceStatus.Scheduled,
                     RaceType = raceDto.RaceType,
                     RaceNumber = raceDto.RaceNumber,
-                    RaceTime = raceDto.RaceTime
+                    RaceTime = raceDto.RaceTime,
+                    RaceEntries = new List<RaceEntry>()
                 };
 
-                await _raceRepository.AddAsync(firstHeat);
+                foreach (LaneAssignmentDto raceEntry in raceDto.Lanes)
+                {
+                    RaceEntry entry = new RaceEntry
+                    {
+                        Id = Guid.NewGuid(),
+                        TeamId = raceEntry.TeamId,
+                        StartLane = raceEntry.StartLane,
+                        RaceId = raceEntity.Id
+                    };
+
+                    raceEntry
+                }
+
+                await _raceRepository.AddAsync(raceEntity);
             }
 
 
