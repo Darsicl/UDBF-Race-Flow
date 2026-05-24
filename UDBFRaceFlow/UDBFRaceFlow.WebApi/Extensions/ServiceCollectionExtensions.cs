@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using UDBFRaceFlow.Application.Mapping;
 using UDBFRaceFlow.Application.Services.SystemA;
 using UDBFRaceFlow.Infrastructure.Persistence;
 
@@ -22,6 +24,8 @@ namespace UDBFRaceFlow.WebApi.Extensions
                 });
 
             services.AddValidatorsFromAssemblyContaining<SystemADtoValidator>();
+
+            TypeAdapterConfig.GlobalSettings.Scan(typeof(SystemAMappingConfig).Assembly);
         }
     }
 }

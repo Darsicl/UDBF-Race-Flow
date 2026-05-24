@@ -1,4 +1,5 @@
-﻿using UDBFRaceFlow.Application.Dto;
+﻿using Mapster;
+using UDBFRaceFlow.Application.Dto;
 using UDBFRaceFlow.Application.Interfaces;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
 using UDBFRaceFlow.Domain.Entities.Race;
@@ -20,37 +21,23 @@ namespace UDBFRaceFlow.Application.Services.SystemA
         public async Task BuildGrid(CreateFullGridDto fullGridDto)
         {
             List<RaceCreationDto> sortRaces = fullGridDto.Races
-                .OrderBy(r => r.RaceNumber)
+                .OrderBy(r => r.SequenceNumber)
                 .ToList();
 
-            foreach (RaceCreationDto raceDto in fullGridDto.Races)
+            foreach (RaceCreationDto raceDto in sortRaces)
             {
 
-                RaceData race = new RaceData
-                {
-                    Id = Guid.NewGuid(),
-                    BoatSize = fullGridDto.BoatSize,
-                    Distance = fullGridDto.Distance,
-                    GenderCategory = fullGridDto.Gender,
-                    RaceStatus = RaceStatus.Scheduled,
-                    RaceType = raceDto.RaceType,
-                    RaceNumber = raceDto.RaceNumber,
-                    RaceTime = raceDto.RaceTime,
-                    SequenceNumber = raceDto.SequenceNumber,
-                    RaceEntries = new List<RaceEntry>()
-                };
+                RaceData race = raceDto.Adapt<RaceData>();
 
-                foreach (LaneAssignmentDto raceEntry in raceDto.Lanes)
-                {
-                    RaceEntry entry = new RaceEntry
-                    {
-                        Id = Guid.NewGuid(),
-                        TeamId = raceEntry.TeamId,
-                        StartLane = raceEntry.StartLane,
-                        RaceId = race.Id
-                    };
+                race.BoatSize = fullGridDto.BoatSize;
+                race.GenderCategory = fullGridDto.Gender;
+                race.Distance = fullGridDto.Distance;
+                race.RaceStatus = RaceStatus.Scheduled;
 
-                    race.RaceEntries.Add(entry);
+
+                foreach (RaceEntry entry in race.RaceEntries)
+                {
+                    entry.RaceId = race.Id;
                 }
 
                 await _raceRepository.AddAsync(race);
