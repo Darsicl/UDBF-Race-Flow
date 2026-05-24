@@ -2,9 +2,9 @@
 {
     public enum RaceType
     {
-        Heat = 1,
-        Semifinal = 2,
-        Final = 3,
-        Round = 4
+        Heat = 0,
+        Semifinal = 1,
+        Final = 2,
+        //Round = 3
     }
 }

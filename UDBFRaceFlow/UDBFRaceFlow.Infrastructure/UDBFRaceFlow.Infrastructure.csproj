@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UDBFRaceFlow.Application\UDBFRaceFlow.Application.csproj" />
     <ProjectReference Include="..\UDBFRaceFlow.Domain\UDBFRaceFlow.Domain.csproj" />
   </ItemGroup>
 
