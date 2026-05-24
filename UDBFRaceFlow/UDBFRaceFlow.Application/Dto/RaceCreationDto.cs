@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using UDBFRaceFlow.Domain.Enums;
 
 namespace UDBFRaceFlow.Application.Dto
 {
-    internal class RaceCreationDto
-    {
-    }
+    public record RaceCreationDto(int RaceNumber, int Distance, BoatSize BoatSize, GenderCategory Gender, RaceType RaceType, List<LaneAssignmentDto> Lanes);
 }
