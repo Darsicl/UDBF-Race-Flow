@@ -2,5 +2,5 @@
 
 namespace UDBFRaceFlow.Application.Dto
 {
-    public record RaceCreationDto(int RaceNumber, RaceType RaceType, List<LaneAssignmentDto> Lanes);
+    public record RaceCreationDto(int RaceNumber, DateTime RaceTime, RaceType RaceType, List<LaneAssignmentDto> Lanes);
 }

@@ -19,11 +19,24 @@ namespace UDBFRaceFlow.Application.Services
 
         public async Task BuildGrid(CreateFullGridDto fullGridDto)
         {
-            RaceData firstHeat = new RaceData
+            foreach (RaceCreationDto raceDto in fullGridDto.Races)
             {
-                Id = Guid.NewGuid(),
-                BoatSize = fullGridDto.Races.FirstOrDefault(r => r.BoatSize ==)
-            };
+
+                RaceData firstHeat = new RaceData
+                {
+                    Id = Guid.NewGuid(),
+                    BoatSize = fullGridDto.BoatSize,
+                    Distance = fullGridDto.Distance,
+                    GenderCategory = fullGridDto.Gender,
+                    RaceStatus = RaceStatus.Scheduled,
+                    RaceType = raceDto.RaceType,
+                    RaceNumber = raceDto.RaceNumber,
+                    RaceTime = raceDto.RaceTime
+                };
+
+                await _raceRepository.AddAsync(firstHeat);
+            }
+
 
         }
     }

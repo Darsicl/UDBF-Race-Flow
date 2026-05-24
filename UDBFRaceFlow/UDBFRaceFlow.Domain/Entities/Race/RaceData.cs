@@ -26,6 +26,9 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         [Required]
         public RaceType RaceType { get; set; }
 
+        [Required]
+        public DateTime RaceTime { get; set; }
+
         public List<RaceEntry> RaceEntries { get; set; } = new List<RaceEntry>();
     }
 }
