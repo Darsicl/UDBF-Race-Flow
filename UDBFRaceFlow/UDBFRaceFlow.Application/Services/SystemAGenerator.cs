@@ -17,21 +17,14 @@ namespace UDBFRaceFlow.Application.Services
 
         public RaceSystems raceSystem => RaceSystems.SystemA;
 
-        public async Task BuildGrid(CreateSystemDto createSystemDto)
+        public async Task BuildGrid(CreateFullGridDto fullGridDto)
         {
-            RaceData raceHeat = new RaceData
+            RaceData firstHeat = new RaceData
             {
                 Id = Guid.NewGuid(),
-                Distance = createSystemDto.Distance,
-                BoatSize = createSystemDto.BoatSize,
-                GenderCategory = createSystemDto.GenderCategory,
-                RaceNumber = createSystemDto.RaceNumber,
-                RaceStatus = RaceStatus.Scheduled,
-                RaceType = RaceType.Heat,
-                RaceEntries = createSystemDto.RaceEntries,
+                BoatSize = fullGridDto.Races.FirstOrDefault(r => r.BoatSize ==)
             };
 
-            await _raceRepository.AddAsync(raceHeat);
         }
     }
 }
