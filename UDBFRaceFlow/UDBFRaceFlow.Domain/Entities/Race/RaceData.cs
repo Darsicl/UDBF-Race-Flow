@@ -12,8 +12,7 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         public int RaceNumber { get; set; }
 
         [Required]
-        [MaxLength(7)]
-        public string BoatSize { get; set; } = string.Empty;
+        public BoatSize BoatSize { get; set; }
 
         [Range(200, 2000)]
         public int Distance { get; set; }
