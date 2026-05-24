@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using UDBFRaceFlow.Infrastructure.Persistence;
 
 namespace UDBFRaceFlow.WebApi.Extensions
@@ -11,6 +12,12 @@ namespace UDBFRaceFlow.WebApi.Extensions
             {
                 options.UseNpgsql(configuration.GetConnectionString("RaceDbConnection"));
             });
+
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
         }
     }
 }
