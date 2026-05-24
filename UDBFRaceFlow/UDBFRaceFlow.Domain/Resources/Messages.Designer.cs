@@ -70,6 +70,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Semifinal or Final should be single.
+        /// </summary>
+        public static string Error_CountOfRaces {
+            get {
+                return ResourceManager.GetString("Error CountOfRaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {PropertyName} cannot be greater than {ComparisonValue}..
         /// </summary>
         public static string Error_MaxLenght {

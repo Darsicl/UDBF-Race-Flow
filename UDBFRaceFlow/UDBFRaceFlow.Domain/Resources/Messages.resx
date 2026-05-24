@@ -129,4 +129,7 @@
   <data name="Error_Chronological" xml:space="preserve">
     <value>Race 1 must be earlier than Race 2</value>
   </data>
+  <data name="Error CountOfRaces" xml:space="preserve">
+    <value>Semifinal or Final should be single</value>
+  </data>
 </root>

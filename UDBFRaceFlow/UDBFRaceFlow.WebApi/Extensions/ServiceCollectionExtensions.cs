@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using UDBFRaceFlow.Application.Services.SystemA;
 using UDBFRaceFlow.Infrastructure.Persistence;
 
 namespace UDBFRaceFlow.WebApi.Extensions
@@ -18,6 +20,8 @@ namespace UDBFRaceFlow.WebApi.Extensions
                 {
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
+
+            services.AddValidatorsFromAssemblyContaining<SystemADtoValidator>();
         }
     }
 }
