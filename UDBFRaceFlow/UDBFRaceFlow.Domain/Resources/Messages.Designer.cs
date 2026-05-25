@@ -65,7 +65,7 @@ namespace UDBFRaceFlow.Domain.Resources {
         /// </summary>
         public static string Error_Chronological {
             get {
-                return ResourceManager.GetString("Error_Chronological", resourceCulture);
+                return ResourceManager.GetString("Error Chronological", resourceCulture);
             }
         }
         
@@ -79,11 +79,29 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entity {0} with Id {1} not found.
+        /// </summary>
+        public static string Error_EntityWithIdNotFound {
+            get {
+                return ResourceManager.GetString("Error EntityWithIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {PropertyName} cannot be greater than {ComparisonValue}..
         /// </summary>
         public static string Error_MaxLenght {
             get {
                 return ResourceManager.GetString("Error MaxLenght", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method {0} not found.
+        /// </summary>
+        public static string Error_MethodNotFound {
+            get {
+                return ResourceManager.GetString("Error MethodNotFound", resourceCulture);
             }
         }
         

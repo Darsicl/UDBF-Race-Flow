@@ -126,10 +126,16 @@
   <data name="Error MinLength" xml:space="preserve">
     <value>{PropertyName} cannot be less than {ComparisonValue}.</value>
   </data>
-  <data name="Error_Chronological" xml:space="preserve">
+  <data name="Error Chronological" xml:space="preserve">
     <value>Race 1 must be earlier than Race 2</value>
   </data>
   <data name="Error CountOfRaces" xml:space="preserve">
     <value>Semifinal or Final should be single</value>
+  </data>
+  <data name="Error EntityWithIdNotFound" xml:space="preserve">
+    <value>Entity {0} with Id {1} not found</value>
+  </data>
+  <data name="Error MethodNotFound" xml:space="preserve">
+    <value>Method {0} not found</value>
   </data>
 </root>

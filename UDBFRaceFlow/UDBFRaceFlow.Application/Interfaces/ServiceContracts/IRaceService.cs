@@ -1,6 +1,10 @@
-﻿namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
+﻿using FluentResults;
+
+namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
 {
-    internal class IRaceService
+    public interface IRaceService
     {
+        Task<Result> CheckFinishOfHeats(Guid categoryId);
+        Task<Result> CheckFinishOfSemis(Guid categoryId);
     }
 }
