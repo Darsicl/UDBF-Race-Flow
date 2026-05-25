@@ -5,8 +5,9 @@ namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
 {
     public interface ISystemGenerator
     {
-        public RaceSystems raceSystem { get; }
-        public Task BuildGrid(CreateFullGridDto fullGridDto);
-        public Task BuildSemifinal();
+        RaceSystems raceSystem { get; }
+        Task BuildGrid(CreateFullGridDto fullGridDto);
+        Task BuildSemifinal(Guid categoryId);
+        Task BuildFinal(Guid categoryId);
     }
 }

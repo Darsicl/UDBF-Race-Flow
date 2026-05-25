@@ -21,6 +21,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
         public async Task BuildGrid(CreateFullGridDto fullGridDto)
         {
             RaceCategory category = fullGridDto.Adapt<RaceCategory>();
+            category.Races = new List<RaceData>();
 
             List<RaceCreationDto> sortRaces = fullGridDto.Races
                 .OrderBy(r => r.RaceType)
@@ -29,18 +30,19 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
             foreach (RaceCreationDto raceDto in sortRaces)
             {
-
                 RaceData race = raceDto.Adapt<RaceData>();
+
                 race.RaceStatus = RaceStatus.Scheduled;
 
+                race.CategoryId = category.Id;
 
-                foreach (LaneData entry in race.Lanes)
+
+                foreach (LaneData lane in race.Lanes)
                 {
-                    entry.RaceId = race.Id;
+                    lane.RaceId = race.Id;
                 }
 
-                await _raceRepository.AddRaceAsync(race);
-
+                category.Races.Add(race);
             }
 
             await _raceRepository.AddCategoryAsync(category);
@@ -49,7 +51,9 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
         }
 
-        public async Task BuildSemifinal()
+        public async Task
+
+        public async Task BuildSemifinal(Guid categoryId)
         {
 
         }

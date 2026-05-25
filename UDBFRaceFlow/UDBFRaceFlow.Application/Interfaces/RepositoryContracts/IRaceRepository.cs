@@ -4,7 +4,16 @@ namespace UDBFRaceFlow.Application.Interfaces
 {
     public interface IRaceRepository
     {
-        Task AddAsync(RaceData race);
+        Task AddCategoryAsync(RaceCategory category);
+
+        Task AddRaceAsync(RaceData race);
+
+        Task AddLaneAsync(LaneData lane);
+
+        Task<RaceData> GetRace(Guid raceId);
+
+        Task<RaceCategory> GetCategory(Guid categoryId);
+
         Task SaveChangesAsync();
     }
 }

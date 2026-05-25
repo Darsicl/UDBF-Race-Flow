@@ -10,8 +10,7 @@ namespace UDBFRaceFlow.Application.Mapping
         {
             config.NewConfig<CreateFullGridDto, RaceCategory>()
                 .Map(dest => dest.Id, src => Guid.NewGuid())
-                .Map(dest => dest.Distance, src => src.Distance)
-                .Map(dest => dest.Races, src => src.Races);
+                .Map(dest => dest.Distance, src => src.Distance);
 
             config.NewConfig<RaceCreationDto, RaceData>()
                 .Map(dest => dest.Id, src => Guid.NewGuid())
