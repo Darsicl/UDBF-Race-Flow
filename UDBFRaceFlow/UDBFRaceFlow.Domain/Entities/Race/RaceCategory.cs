@@ -17,6 +17,9 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         [Required]
         public GenderCategory GenderCategory { get; set; }
 
+        [Required]
+        public RaceSystems raceSystems { get; set; }
+
         public List<RaceData> Races { get; set; } = new List<RaceData>();
 
     }
