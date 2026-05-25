@@ -20,6 +20,8 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
         public async Task BuildGrid(CreateFullGridDto fullGridDto)
         {
+            RaceCategory category = fullGridDto.Adapt<RaceCategory>();
+
             List<RaceCreationDto> sortRaces = fullGridDto.Races
                 .OrderBy(r => r.RaceType)
                 .ThenBy(r => r.SequenceNumber)
@@ -29,10 +31,6 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             {
 
                 RaceData race = raceDto.Adapt<RaceData>();
-
-                race.BoatSize = fullGridDto.BoatSize;
-                race.GenderCategory = fullGridDto.Gender;
-                race.Distance = fullGridDto.Distance;
                 race.RaceStatus = RaceStatus.Scheduled;
 
 
@@ -41,9 +39,11 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                     entry.RaceId = race.Id;
                 }
 
-                await _raceRepository.AddAsync(race);
+                await _raceRepository.AddRaceAsync(race);
 
             }
+
+            await _raceRepository.AddCategoryAsync(category);
 
             await _raceRepository.SaveChangesAsync();
 
@@ -51,7 +51,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
         public async Task BuildSemifinal()
         {
-            object heats =
+
         }
 
 
