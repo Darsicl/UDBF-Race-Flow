@@ -12,6 +12,6 @@ namespace UDBFRaceFlow.Domain.Entities.Team
         [MaxLength(50)]
         public string Name { get; set; } = string.Empty;
 
-        public List<RaceEntry> RaceEntries { get; set; } = new List<RaceEntry>();
+        public List<LaneData> Lanes { get; set; } = new List<LaneData>();
     }
 }

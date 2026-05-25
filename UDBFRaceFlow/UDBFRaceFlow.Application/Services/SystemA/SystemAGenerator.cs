@@ -36,7 +36,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 race.RaceStatus = RaceStatus.Scheduled;
 
 
-                foreach (RaceEntry entry in race.RaceEntries)
+                foreach (LaneData entry in race.Lanes)
                 {
                     entry.RaceId = race.Id;
                 }

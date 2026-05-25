@@ -11,7 +11,7 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Configurations
             builder.HasKey(r => r.Id);
 
             builder
-                .HasMany(r => r.RaceEntries)
+                .HasMany(r => r.Lanes)
                 .WithOne(r => r.Team);
 
             builder.HasIndex(r => r.Name)

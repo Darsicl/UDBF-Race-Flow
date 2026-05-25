@@ -28,6 +28,6 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         [Required]
         public Guid CategoryId { get; set; }
 
-        public List<RaceEntry> RaceEntries { get; set; } = new List<RaceEntry>();
+        public List<LaneData> Lanes { get; set; } = new List<LaneData>();
     }
 }

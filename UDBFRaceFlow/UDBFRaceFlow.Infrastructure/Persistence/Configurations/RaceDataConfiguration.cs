@@ -16,7 +16,7 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Configurations
             builder.HasIndex(r => r.CategoryId);
 
             builder
-                .HasMany(r => r.RaceEntries)
+                .HasMany(r => r.Lanes)
                 .WithOne(r => r.Race)
                 .HasForeignKey(r => r.RaceId)
                 .OnDelete(DeleteBehavior.Cascade);

@@ -8,12 +8,17 @@ namespace UDBFRaceFlow.Application.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
+            config.NewConfig<CreateFullGridDto, RaceCategory>()
+                .Map(dest => dest.Id, src => Guid.NewGuid())
+                .Map(dest => dest.Distance, src => src.Distance)
+                .Map(dest => dest.Races, src => src.Races);
+
             config.NewConfig<RaceCreationDto, RaceData>()
                 .Map(dest => dest.Id, src => Guid.NewGuid())
                 .Map(dest => dest.RaceTime, src => src.RaceTime)
-                .Map(dest => dest.RaceEntries, src => src.Lanes);
+                .Map(dest => dest.Lanes, src => src.Lanes);
 
-            config.NewConfig<LaneAssignmentDto, RaceEntry>()
+            config.NewConfig<LaneAssignmentDto, LaneData>()
                 .Map(dest => dest.Id, src => Guid.NewGuid())
                 .Map(dest => dest.TeamId, src => src.TeamId)
                 .Map(dest => dest.StartLane, src => src.StartLane);

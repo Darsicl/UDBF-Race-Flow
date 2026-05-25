@@ -4,7 +4,7 @@ using UDBFRaceFlow.Domain.Entities.Team;
 namespace UDBFRaceFlow.Domain.Entities.Race
 {
 
-    public class RaceEntry
+    public class LaneData
     {
         [Key]
         public Guid Id { get; set; }

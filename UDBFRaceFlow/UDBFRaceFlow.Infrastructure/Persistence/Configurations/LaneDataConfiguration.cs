@@ -4,9 +4,9 @@ using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Infrastructure.Persistence.Configurations
 {
-    public class RaceEntryConfiguration : IEntityTypeConfiguration<RaceEntry>
+    public class LaneDataConfiguration : IEntityTypeConfiguration<LaneData>
     {
-        public void Configure(EntityTypeBuilder<RaceEntry> builder)
+        public void Configure(EntityTypeBuilder<LaneData> builder)
         {
             builder.HasKey(r => r.Id);
 
@@ -14,7 +14,7 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Configurations
 
             builder
                 .HasOne(r => r.Team)
-                .WithMany(r => r.RaceEntries)
+                .WithMany(r => r.Lanes)
                 .HasForeignKey(r => r.TeamId);
         }
     }
