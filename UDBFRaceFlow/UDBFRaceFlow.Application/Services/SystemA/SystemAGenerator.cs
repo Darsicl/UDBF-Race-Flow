@@ -21,7 +21,8 @@ namespace UDBFRaceFlow.Application.Services.SystemA
         public async Task BuildGrid(CreateFullGridDto fullGridDto)
         {
             List<RaceCreationDto> sortRaces = fullGridDto.Races
-                .OrderBy(r => r.SequenceNumber)
+                .OrderBy(r => r.RaceType)
+                .ThenBy(r => r.SequenceNumber)
                 .ToList();
 
             foreach (RaceCreationDto raceDto in sortRaces)
@@ -41,9 +42,18 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 }
 
                 await _raceRepository.AddAsync(race);
+
             }
 
+            await _raceRepository.SaveChangesAsync();
 
         }
+
+        public async Task BuildSemifinal()
+        {
+            object heats =
+        }
+
+
     }
 }

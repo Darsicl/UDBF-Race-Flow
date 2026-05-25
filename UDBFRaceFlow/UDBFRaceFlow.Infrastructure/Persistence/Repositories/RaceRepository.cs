@@ -16,5 +16,10 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
         {
             await _context.Races.AddAsync(race);
         }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

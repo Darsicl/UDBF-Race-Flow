@@ -10,10 +10,7 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(r => r.Id);
 
-            builder
-                .HasOne(r => r.Race)
-                .WithMany(r => r.RaceEntries)
-                .HasForeignKey(r => r.RaceId);
+            builder.HasIndex(r => r.RaceId);
 
             builder
                 .HasOne(r => r.Team)

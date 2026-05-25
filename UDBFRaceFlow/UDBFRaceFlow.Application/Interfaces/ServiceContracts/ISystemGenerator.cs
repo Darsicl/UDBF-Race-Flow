@@ -7,5 +7,6 @@ namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
     {
         public RaceSystems raceSystem { get; }
         public Task BuildGrid(CreateFullGridDto fullGridDto);
+        public Task BuildSemifinal();
     }
 }
