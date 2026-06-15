@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UDBFRaceFlow.Application.Interfaces;
-using UDBFRaceFlow.Domain.Entities.Race;
+﻿using UDBFRaceFlow.Application.Interfaces;
 
 namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
 {
-    public class RaceRepository : IRaceRepository
+    public class RaceRepository<T> : IRaceRepository<T>
+        where T : class
     {
         private readonly RaceDbContext _context;
 
@@ -13,39 +12,31 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task AddCategoryAsync(RaceCategory category)
-        {
-            await _context.Categories.AddAsync(category);
-        }
-
-        public async Task AddRaceAsync(RaceData race)
-        {
-            await _context.Races.AddAsync(race);
-        }
-
-        public async Task AddLaneAsync(LaneData lane)
-        {
-            await _context.Lanes.AddAsync(lane);
-        }
-
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        public async Task<RaceData> GetRace(Guid raceId)
+        public async Task AddAsync(T entity)
         {
-            return await _context.Races
-                .Include(r => r.Lanes)
-                .FirstOrDefaultAsync(r => r.Id == raceId);
+            await _context.Set<T>().AddAsync(entity);
         }
 
-        public async Task<RaceCategory> GetCategory(Guid categoryId)
+        public async Task<T?> GetByIdAsync(Guid Id)
         {
-            return await _context.Categories
-                .Include(c => c.Races)
-                .ThenInclude(c => c.Lanes)
-                .FirstOrDefaultAsync(c => c.Id == categoryId);
+            return await _context.Set<T>().FindAsync(Id);
+        }
+
+        public Task UpdateAsync(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteAsync(T entity)
+        {
+            _context.Remove(entity);
+            return Task.CompletedTask;
         }
     }
 }

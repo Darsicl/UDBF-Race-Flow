@@ -1,18 +1,14 @@
-﻿using UDBFRaceFlow.Domain.Entities.Race;
-
-namespace UDBFRaceFlow.Application.Interfaces
+﻿namespace UDBFRaceFlow.Application.Interfaces
 {
-    public interface IRaceRepository
+    public interface IRaceRepository<T> where T : class
     {
-        Task AddCategoryAsync(RaceCategory category);
+        Task AddAsync(T entity);
 
-        Task AddRaceAsync(RaceData race);
+        Task<T?> GetByIdAsync(Guid Id);
 
-        Task AddLaneAsync(LaneData lane);
+        Task UpdateAsync(T entity);
 
-        Task<RaceData> GetRace(Guid raceId);
-
-        Task<RaceCategory> GetCategory(Guid categoryId);
+        Task DeleteAsync(T entity);
 
         Task SaveChangesAsync();
     }

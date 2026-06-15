@@ -2,7 +2,6 @@
 using Mapster;
 using Microsoft.Extensions.Logging;
 using UDBFRaceFlow.Application.Dto;
-using UDBFRaceFlow.Application.Interfaces;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
@@ -60,9 +59,9 @@ namespace UDBFRaceFlow.Application.Services.SystemA
         {
             var category = await _raceRepository.GetCategory(categoryId);
 
-            if(category is null)
+            if (category is null)
             {
-                var errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(RaceCategory), categoryId);
+                string errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(RaceCategory), categoryId);
                 _logger.LogError(errorMsg);
                 return Result.Fail(new Error(errorMsg));
             }
@@ -77,14 +76,22 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 .Where(f => f.RaceType == RaceType.Heat)
                 .FirstOrDefault(f => f.SequenceNumber == 2);
 
-            var firstLaneTeam = firstHeat.Lanes
+            var laneOneTeam = firstHeat.Lanes
                 .FirstOrDefault(f => f.FinishPlace == 3);
-            var secondLaneTeam = secondHeat.Lanes
+            var laneTwoTeam = secondHeat.Lanes
                 .FirstOrDefault(f => f.FinishPlace == 2);
-            var thirdLaneTeam = firstHeat.Lanes
+            var laneTreeTeam = firstHeat.Lanes
                 .FirstOrDefault(f => f.FinishPlace == 2);
-            var fouthLaneTeam = secondHeat.Lanes
+            var laneFourTeam = secondHeat.Lanes
                 .FirstOrDefault(f => f.FinishPlace == 3);
+
+            semi.Lanes = new List<LaneData>
+            {
+                new LaneData {StartLane = 1, TeamId = laneOneTeam.Id, RaceId = semi.Id},
+                new LaneData {StartLane = 2, TeamId = laneTwoTeam.Id, RaceId = semi.Id},
+                new LaneData {StartLane = 3, TeamId = laneTreeTeam.Id, RaceId = semi.Id},
+                new LaneData {StartLane = 4, TeamId = laneFourTeam.Id, RaceId = semi.Id}
+            };
 
 
         }
