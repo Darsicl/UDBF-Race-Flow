@@ -9,9 +9,8 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
         private readonly RaceDbContext _context;
         public RaceCategoryRepository(RaceDbContext raceDbContext) : base(raceDbContext)
         {
+            _context = raceDbContext;
         }
-
-
         public async Task<RaceCategory?> GetCategoryWithRacesAndLanesAsync(Guid id)
         {
             return await _context.Categories
@@ -19,21 +18,5 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
                 .ThenInclude(c => c.Lanes)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
-
-        //public async Task<RaceData> GetRace(Guid raceId)
-        //{
-        //    return await _context.Races
-        //        .Include(r => r.Lanes)
-        //        .FirstOrDefaultAsync(r => r.Id == raceId);
-        //}
-
-        //public async Task<RaceCategory> GetCategory(Guid categoryId)
-        //{
-        //    return await _context.Categories
-        //        .Include(c => c.Races)
-        //        .ThenInclude(c => c.Lanes)
-        //        .FirstOrDefaultAsync(c => c.Id == categoryId);
-        //}
-
     }
 }

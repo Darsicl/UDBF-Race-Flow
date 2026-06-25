@@ -115,11 +115,65 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Enough Heat Results for build Semifinal.
+        /// </summary>
+        public static string Error_NotEnoughHeatResults {
+            get {
+                return ResourceManager.GetString("Error NotEnoughHeatResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Enough Semifinal Results for build Final.
+        /// </summary>
+        public static string Error_NotEnoughSemisResults {
+            get {
+                return ResourceManager.GetString("Error NotEnoughSemisResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Property {PropertyName} is Required.
         /// </summary>
         public static string Error_PropertyIsRequired {
             get {
                 return ResourceManager.GetString("Error PropertyIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grid for category {0} successfully generated.
+        /// </summary>
+        public static string Info_FinishGenerateGrid {
+            get {
+                return ResourceManager.GetString("Info FinishGenerateGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} build. Lane 1: Team {1}. Lane 2: Team {2}. Lane 3: Team {3}. Lane 4: Team {4}. .
+        /// </summary>
+        public static string Info_RaceWasBuilded {
+            get {
+                return ResourceManager.GetString("Info RaceWasBuilded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start of building race {0} for category {1}.
+        /// </summary>
+        public static string Info_StartBuildRace {
+            get {
+                return ResourceManager.GetString("Info StartBuildRace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start generating grid for category {0}.
+        /// </summary>
+        public static string Info_StartGeneratingGrid {
+            get {
+                return ResourceManager.GetString("Info StartGeneratingGrid", resourceCulture);
             }
         }
     }

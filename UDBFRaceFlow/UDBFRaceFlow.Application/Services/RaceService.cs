@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using Microsoft.Extensions.Logging;
-using UDBFRaceFlow.Application.Interfaces;
+using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
@@ -10,10 +10,10 @@ namespace UDBFRaceFlow.Application.Services
 {
     public class RaceService : IRaceService
     {
-        private readonly IRaceRepository _raceRepo;
+        private readonly IRaceCategoryRepository _raceRepo;
         private readonly IEnumerable<ISystemGenerator> _generators;
         private readonly ILogger<RaceService> _logger;
-        public RaceService(IRaceRepository raceRepo, IEnumerable<ISystemGenerator> generators, ILogger<RaceService> logger)
+        public RaceService(IRaceCategoryRepository raceRepo, IEnumerable<ISystemGenerator> generators, ILogger<RaceService> logger)
         {
             _raceRepo = raceRepo;
             _generators = generators;
@@ -22,9 +22,9 @@ namespace UDBFRaceFlow.Application.Services
 
         public async Task<Result> CheckFinishOfHeats(Guid categoryId)
         {
-            _logger.LogInformation("Method that cheking, is heats finished, begins");
+            _logger.LogInformation("Method that checking, is heats finished, begins");
 
-            RaceCategory category = await _raceRepo.GetCategory(categoryId);
+            var category = await _raceRepo.GetCategoryWithRacesAndLanesAsync(categoryId);
 
             if (category is null)
             {
@@ -33,13 +33,13 @@ namespace UDBFRaceFlow.Application.Services
                 return Result.Fail(new Error(errorMsg));
             }
 
-            bool finishedRaces = category.Races
+            var finishedRaces = category.Races
                 .Where(f => f.RaceType == RaceType.Heat)
                 .All(f => f.RaceStatus == RaceStatus.Finished);
 
             if (finishedRaces)
             {
-                ISystemGenerator? systemForSemis = _generators.FirstOrDefault(g => g.raceSystem == category.RaceSystem);
+                var systemForSemis = _generators.FirstOrDefault(g => g.ApplyParametrs(category.Distance, category.RaceSystem));
 
                 if (systemForSemis is null)
                 {
@@ -48,7 +48,12 @@ namespace UDBFRaceFlow.Application.Services
                     return Result.Fail(new Error(errorMsg));
                 }
 
-                await systemForSemis.BuildSemifinal(categoryId);
+                var buildResult = await systemForSemis.BuildSemifinal(categoryId);
+
+                if (buildResult.IsFailed)
+                {
+                    return buildResult;
+                }
 
                 _logger.LogInformation("Semis builded succesfully");
 
@@ -64,7 +69,7 @@ namespace UDBFRaceFlow.Application.Services
         {
             _logger.LogInformation("Method that cheking, is semis finished, begins");
 
-            RaceCategory category = await _raceRepo.GetCategory(categoryId);
+            var category = await _raceRepo.GetCategoryWithRacesAndLanesAsync(categoryId);
 
             if (category is null)
             {
@@ -79,16 +84,21 @@ namespace UDBFRaceFlow.Application.Services
 
             if (finishedRaces)
             {
-                ISystemGenerator? systemForSemis = _generators.FirstOrDefault(g => g.raceSystem == category.RaceSystem);
+                var systemForFinals = _generators.FirstOrDefault(g => g.ApplyParametrs(category.Distance, category.RaceSystem));
 
-                if (systemForSemis is null)
+                if (systemForFinals is null)
                 {
-                    string errorMsg = string.Format(Messages.Error_MethodNotFound, nameof(systemForSemis));
+                    string errorMsg = string.Format(Messages.Error_MethodNotFound, nameof(systemForFinals));
                     _logger.LogError(errorMsg);
                     return Result.Fail(new Error(errorMsg));
                 }
 
-                await systemForSemis.BuildFinal(categoryId);
+                var buildResult = await systemForFinals.BuildFinal(categoryId);
+
+                if (buildResult.IsFailed)
+                {
+                    return buildResult;
+                }
 
                 _logger.LogInformation("Finals builded succesfully");
 

@@ -138,4 +138,22 @@
   <data name="Error MethodNotFound" xml:space="preserve">
     <value>Method {0} not found</value>
   </data>
+  <data name="Error NotEnoughHeatResults" xml:space="preserve">
+    <value>Not Enough Heat Results for build Semifinal</value>
+  </data>
+  <data name="Error NotEnoughSemisResults" xml:space="preserve">
+    <value>Not Enough Semifinal Results for build Final</value>
+  </data>
+  <data name="Info StartBuildRace" xml:space="preserve">
+    <value>Start of building race {0} for category {1}</value>
+  </data>
+  <data name="Info RaceWasBuilded" xml:space="preserve">
+    <value>{0} build. Lane 1: Team {1}. Lane 2: Team {2}. Lane 3: Team {3}. Lane 4: Team {4}. </value>
+  </data>
+  <data name="Info StartGeneratingGrid" xml:space="preserve">
+    <value>Start generating grid for category {0}</value>
+  </data>
+  <data name="Info FinishGenerateGrid" xml:space="preserve">
+    <value>Grid for category {0} successfully generated</value>
+  </data>
 </root>
