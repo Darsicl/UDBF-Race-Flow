@@ -20,9 +20,9 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             _raceCategoryRepository = raceRepository;
             _logger = logger;
         }
-        public bool ApplyParametrs(int distance, RaceSystems raceSystems)
+        public bool ApplyParametrs(int raceType, RaceSystems raceSystems)
         {
-            return raceSystems == RaceSystems.SystemA && distance == 500;
+            return raceSystems == RaceSystems.SystemA && raceType == 1;
         }
 
         public async Task<Result> BuildGrid(CreateFullGridDto fullGridDto)
