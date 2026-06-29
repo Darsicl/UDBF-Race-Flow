@@ -6,7 +6,7 @@ namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
 {
     public interface ISystemGenerator
     {
-        bool ApplyParametrs(int distance, RaceSystems raceSystems);
+        bool ApplyParametrs(int raceType, RaceSystems raceSystems);
         Task<Result> BuildGrid(CreateFullGridDto fullGridDto);
         Task<Result> BuildSemifinal(Guid categoryId);
         Task<Result> BuildFinal(Guid categoryId);

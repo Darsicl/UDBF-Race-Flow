@@ -55,6 +55,8 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 category.Races.Add(race);
             }
 
+            var count = category.Races.Count();
+
             await _raceCategoryRepository.AddAsync(category);
 
             await _raceCategoryRepository.SaveChangesAsync();

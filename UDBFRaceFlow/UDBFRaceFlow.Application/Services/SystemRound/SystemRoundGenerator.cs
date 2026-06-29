@@ -14,11 +14,13 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
     {
         private readonly IRaceCategoryRepository _raceRepository;
         private readonly ILogger<SystemRoundGenerator> _logger;
+        private readonly IEnumerable<IRoundGenerator> _generators;
 
-        public SystemRoundGenerator(IRaceCategoryRepository raceRepository, ILogger<SystemRoundGenerator> logger)
+        public SystemRoundGenerator(IRaceCategoryRepository raceRepository, ILogger<SystemRoundGenerator> logger, IEnumerable<IRoundGenerator> generators)
         {
             _raceRepository = raceRepository;
             _logger = logger;
+            _generators = generators;
         }
 
         public bool ApplyParametrs(int raceType, RaceSystems raceSystems)
@@ -53,6 +55,13 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
 
                 category.Races.Add(race);
             }
+
+            var countOfTeams = category.Races
+                .Where(c => c.RaceType == RaceType.Heat)
+                .SelectMany(c => c.Lanes)
+                .Count();
+
+            _generators.FirstOrDefault(g => g.ApplyParametrs(countOfTeams));
 
             await _raceRepository.AddAsync(category);
 
@@ -102,7 +111,6 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
 
             return Result.Ok();
         }
-
 
     }
 }
