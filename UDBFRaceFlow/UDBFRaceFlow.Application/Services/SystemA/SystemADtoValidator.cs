@@ -18,7 +18,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 .WithMessage(Messages.Error_PropertyIsRequired)
                 .GreaterThanOrEqualTo(200)
                 .WithMessage(Messages.Error_MinLength)
-                .LessThanOrEqualTo(2000)
+                .LessThanOrEqualTo(500)
                 .WithMessage(Messages.Error_MaxLenght);
 
             RuleFor(x => x.Gender)

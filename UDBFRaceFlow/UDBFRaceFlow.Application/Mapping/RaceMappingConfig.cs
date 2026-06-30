@@ -4,7 +4,7 @@ using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Application.Mapping
 {
-    public class SystemAMappingConfig : IRegister
+    public class RaceMappingConfig : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {

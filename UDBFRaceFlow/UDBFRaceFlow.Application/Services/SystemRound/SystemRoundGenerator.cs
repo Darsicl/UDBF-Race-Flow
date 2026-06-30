@@ -23,9 +23,9 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
             _generators = generators;
         }
 
-        public bool ApplyParametrs(int raceType, RaceSystems raceSystems)
+        public bool ApplyParametrs(int SystemType, RaceSystems raceSystems)
         {
-            return raceSystems == RaceSystems.Round && raceType == 2;
+            return raceSystems == RaceSystems.Round && SystemType == 1;
         }
         public async Task<Result> BuildGrid(CreateFullGridDto fullGridDto)
         {
@@ -61,10 +61,18 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
                 .SelectMany(c => c.Lanes)
                 .Count();
 
-            _generators.FirstOrDefault(g => g.ApplyParametrs(countOfTeams));
+            var generator = _generators.FirstOrDefault(g => g.ApplyParametrs(countOfTeams));
+
+            if (generator is null)
+            {
+                string errorMsg = string.Format(Messages.Error_RaceIsNull, countOfTeams);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
+            }
+
+            generator.CreateRestRound(category);
 
             await _raceRepository.AddAsync(category);
-
             await _raceRepository.SaveChangesAsync();
 
             _logger.LogInformation(Messages.Info_FinishGenerateGrid, category.Id);

@@ -88,6 +88,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lane {0} is empty.
+        /// </summary>
+        public static string Error_LaneIsNull {
+            get {
+                return ResourceManager.GetString("Error LaneIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {PropertyName} cannot be greater than {ComparisonValue}..
         /// </summary>
         public static string Error_MaxLenght {
@@ -138,6 +147,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         public static string Error_PropertyIsRequired {
             get {
                 return ResourceManager.GetString("Error PropertyIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Race {0} is null.
+        /// </summary>
+        public static string Error_RaceIsNull {
+            get {
+                return ResourceManager.GetString("Error RaceIsNull", resourceCulture);
             }
         }
         

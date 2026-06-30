@@ -20,6 +20,9 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         [Required]
         public RaceSystems RaceSystem { get; set; }
 
+        [Required]
+        public RaceAge RaceAge { get; set; }
+
         public List<RaceData> Races { get; set; } = new List<RaceData>();
 
     }

@@ -156,4 +156,10 @@
   <data name="Info FinishGenerateGrid" xml:space="preserve">
     <value>Grid for category {0} successfully generated</value>
   </data>
+  <data name="Error RaceIsNull" xml:space="preserve">
+    <value>Race {0} is null</value>
+  </data>
+  <data name="Error LaneIsNull" xml:space="preserve">
+    <value>Lane {0} is empty</value>
+  </data>
 </root>

@@ -12,9 +12,9 @@ namespace UDBFRaceFlow.Application.Services
             _generators = generators;
         }
 
-        public ISystemGenerator GetGenerator(RaceSystems raceSystems, int raceType)
+        public ISystemGenerator GetGenerator(RaceSystems raceSystems, int systemType)
         {
-            return _generators.FirstOrDefault(g => g.ApplyParametrs(raceType, raceSystems))
+            return _generators.FirstOrDefault(g => g.ApplyParametrs(systemType, raceSystems))
                    ?? throw new ArgumentException("System not found");
         }
     }

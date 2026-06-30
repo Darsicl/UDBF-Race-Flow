@@ -25,6 +25,10 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
                 .IsInEnum()
                 .WithMessage(Messages.Error_PropertyIsRequired);
 
+            RuleFor(x => x.RaceAge)
+                .IsInEnum()
+                .WithMessage(Messages.Error_PropertyIsRequired);
+
             RuleFor(x => x.BoatSize)
                 .IsInEnum()
                 .WithMessage(Messages.Error_PropertyIsRequired);
