@@ -25,5 +25,6 @@ namespace UDBFRaceFlow.Domain.Entities.Race
 
         public List<RaceData> Races { get; set; } = new List<RaceData>();
 
+        public string CategoryName => $"{RaceAge} {GenderCategory} {BoatSize} {Distance}m";
     }
 }

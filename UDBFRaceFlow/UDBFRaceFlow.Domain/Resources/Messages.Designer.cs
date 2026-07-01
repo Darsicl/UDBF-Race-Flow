@@ -61,6 +61,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Races from this category {0} don`t have enough interval between rest races.
+        /// </summary>
+        public static string Error_CheckIntervalFail {
+            get {
+                return ResourceManager.GetString("Error CheckIntervalFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Race 1 must be earlier than Race 2.
         /// </summary>
         public static string Error_Chronological {
@@ -156,6 +165,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         public static string Error_RaceIsNull {
             get {
                 return ResourceManager.GetString("Error RaceIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The app don`t have a rule for this distance {0}.
+        /// </summary>
+        public static string Error_UnknownDistance {
+            get {
+                return ResourceManager.GetString("Error UnknownDistance", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
+﻿using Microsoft.EntityFrameworkCore;
+using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
@@ -9,6 +10,13 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
         public RaceDataRepository(RaceDbContext raceDbContext) : base(raceDbContext)
         {
             _context = raceDbContext;
+        }
+
+        public async Task<List<RaceData>> GetAllRacesAsync()
+        {
+            return await _context.Races
+                .Include(c => c.Category)
+                .ToListAsync();
         }
     }
 }

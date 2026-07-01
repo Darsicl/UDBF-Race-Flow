@@ -162,4 +162,10 @@
   <data name="Error LaneIsNull" xml:space="preserve">
     <value>Lane {0} is empty</value>
   </data>
+  <data name="Error UnknownDistance" xml:space="preserve">
+    <value>The app don`t have a rule for this distance {0}</value>
+  </data>
+  <data name="Error CheckIntervalFail" xml:space="preserve">
+    <value>Races from this category {0} don`t have enough interval between rest races</value>
+  </data>
 </root>

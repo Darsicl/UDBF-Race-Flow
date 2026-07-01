@@ -21,6 +21,9 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         public DateTime RaceTime { get; set; }
 
         [Required]
+        public DateTime OriginalDateTime { get; set; }
+
+        [Required]
         public int SequenceNumber { get; set; }
 
         public RaceCategory Category { get; set; } = null!;
