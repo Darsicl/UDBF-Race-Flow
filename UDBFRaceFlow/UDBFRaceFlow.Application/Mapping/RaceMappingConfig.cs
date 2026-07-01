@@ -18,7 +18,6 @@ namespace UDBFRaceFlow.Application.Mapping
                 .Map(dest => dest.Lanes, src => src.Lanes);
 
             config.NewConfig<LaneAssignmentDto, LaneData>()
-                .Map(dest => dest.Id, src => Guid.CreateVersion7())
                 .Map(dest => dest.TeamId, src => src.TeamId)
                 .Map(dest => dest.StartLane, src => src.StartLane);
         }

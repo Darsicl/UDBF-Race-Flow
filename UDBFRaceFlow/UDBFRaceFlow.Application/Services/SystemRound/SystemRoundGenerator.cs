@@ -74,7 +74,6 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
 
             generator.CreateRestRound(category);
 
-
             var existingRaces = await _raceRepository.GetAllRacesAsync();
             var allRaces = existingRaces.Concat(category.Races).ToList();
             var check = CheckIntervalTimeExtension.CheckInterval(allRaces);

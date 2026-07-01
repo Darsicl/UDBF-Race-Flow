@@ -13,12 +13,14 @@ namespace UDBFRaceFlow.Application.Services.SystemA
     public class SystemAShortDistGenerator : ISystemGenerator
     {
         private readonly IRaceCategoryRepository _raceCategoryRepository;
+        private readonly IRaceDataRepository _raceRepository;
         private readonly ILogger<SystemAShortDistGenerator> _logger;
 
-        public SystemAShortDistGenerator(IRaceCategoryRepository raceRepository, ILogger<SystemAShortDistGenerator> logger)
+        public SystemAShortDistGenerator(IRaceCategoryRepository raceCategoryRepository, ILogger<SystemAShortDistGenerator> logger, IRaceDataRepository raceRepository)
         {
-            _raceCategoryRepository = raceRepository;
+            _raceCategoryRepository = raceCategoryRepository;
             _logger = logger;
+            _raceRepository = raceRepository;
         }
         public bool ApplyParametrs(int systemType, RaceSystems raceSystems)
         {
@@ -30,8 +32,6 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             RaceCategory category = fullGridDto.Adapt<RaceCategory>();
 
             _logger.LogInformation(Messages.Info_StartGeneratingGrid, category.Id);
-
-            category.Races = new List<RaceData>();
 
             List<RaceCreationDto> sortRaces = fullGridDto.Races
                 .OrderBy(r => r.RaceType)
@@ -46,6 +46,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
                 race.CategoryId = category.Id;
 
+                race.OriginalDateTime = race.RaceTime;
 
                 foreach (LaneData lane in race.Lanes)
                 {
@@ -53,6 +54,17 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 }
 
                 category.Races.Add(race);
+            }
+
+            var existingRaces = await _raceRepository.GetAllRacesAsync();
+            var allRaces = existingRaces.Concat(category.Races).ToList();
+            var check = CheckIntervalTimeExtension.CheckInterval(allRaces);
+
+            if (!check)
+            {
+                string errorMsg = string.Format(Messages.Error_CheckIntervalFail, category.CategoryName);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
             }
 
             await _raceCategoryRepository.AddAsync(category);

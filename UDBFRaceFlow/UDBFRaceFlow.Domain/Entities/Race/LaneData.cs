@@ -6,6 +6,11 @@ namespace UDBFRaceFlow.Domain.Entities.Race
 
     public class LaneData
     {
+        public LaneData()
+        {
+            Id = Guid.CreateVersion7();
+        }
+
         [Key]
         public Guid Id { get; set; }
 
