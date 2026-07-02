@@ -15,12 +15,14 @@ namespace UDBFRaceFlow.Application.Services.SystemA
         private readonly IRaceCategoryRepository _raceCategoryRepository;
         private readonly IRaceDataRepository _raceRepository;
         private readonly ILogger<SystemALongDistGenerator> _logger;
+        private readonly SystemADtoValidator _validator;
 
-        public SystemALongDistGenerator(IRaceCategoryRepository raceCategoryRepository, ILogger<SystemALongDistGenerator> logger, IRaceDataRepository raceRepository)
+        public SystemALongDistGenerator(IRaceCategoryRepository raceCategoryRepository, ILogger<SystemALongDistGenerator> logger, IRaceDataRepository raceRepository, SystemADtoValidator validator)
         {
             _raceCategoryRepository = raceCategoryRepository;
             _logger = logger;
             _raceRepository = raceRepository;
+            _validator = validator;
         }
         public bool ApplyParametrs(int systemType, RaceSystems raceSystems)
         {
@@ -29,6 +31,15 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
         public async Task<Result> BuildGrid(CreateFullGridDto fullGridDto)
         {
+            var validationResult = await _validator.ValidateAsync(fullGridDto);
+
+            if (!validationResult.IsValid)
+            {
+                var errorMsg = string.Join(",", validationResult.Errors.Select(v => v.ErrorMessage));
+                _logger.LogWarning(string.Format(Messages.Error_ValidationFailed, fullGridDto.RaceSystem, errorMsg));
+                return Result.Fail(new Error(errorMsg));
+            }
+
             RaceCategory category = fullGridDto.Adapt<RaceCategory>();
 
             _logger.LogInformation(Messages.Info_StartGeneratingGrid, category.Id);

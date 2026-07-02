@@ -120,7 +120,7 @@
   <data name="Error PropertyIsRequired" xml:space="preserve">
     <value>Property {PropertyName} is Required</value>
   </data>
-  <data name="Error MaxLenght" xml:space="preserve">
+  <data name="Error MaxLength" xml:space="preserve">
     <value>{PropertyName} cannot be greater than {ComparisonValue}.</value>
   </data>
   <data name="Error MinLength" xml:space="preserve">
@@ -167,5 +167,11 @@
   </data>
   <data name="Error CheckIntervalFail" xml:space="preserve">
     <value>Races from this category {0} don`t have enough interval between rest races</value>
+  </data>
+  <data name="Error NotEnoughTeam" xml:space="preserve">
+    <value>Count of teams not enough to build system</value>
+  </data>
+  <data name="Error ValidationFailed" xml:space="preserve">
+    <value>Validation for {0} failed with errors: {0}</value>
   </data>
 </root>

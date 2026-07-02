@@ -108,9 +108,9 @@ namespace UDBFRaceFlow.Domain.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {PropertyName} cannot be greater than {ComparisonValue}..
         /// </summary>
-        public static string Error_MaxLenght {
+        public static string Error_MaxLength {
             get {
-                return ResourceManager.GetString("Error MaxLenght", resourceCulture);
+                return ResourceManager.GetString("Error MaxLength", resourceCulture);
             }
         }
         
@@ -151,6 +151,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count of teams not enough to build system.
+        /// </summary>
+        public static string Error_NotEnoughTeam {
+            get {
+                return ResourceManager.GetString("Error NotEnoughTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Property {PropertyName} is Required.
         /// </summary>
         public static string Error_PropertyIsRequired {
@@ -174,6 +183,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         public static string Error_UnknownDistance {
             get {
                 return ResourceManager.GetString("Error UnknownDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation for {0} failed with errors: {0}.
+        /// </summary>
+        public static string Error_ValidationFailed {
+            get {
+                return ResourceManager.GetString("Error ValidationFailed", resourceCulture);
             }
         }
         

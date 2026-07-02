@@ -9,29 +9,17 @@ namespace UDBFRaceFlow.Application.Services.SystemA
     {
         public SystemADtoValidator()
         {
-            RuleFor(x => x.RaceSystem)
-                .IsInEnum()
-                .WithMessage(Messages.Error_PropertyIsRequired);
-
             RuleFor(x => x.Distance)
                 .NotEmpty()
                 .WithMessage(Messages.Error_PropertyIsRequired)
                 .GreaterThanOrEqualTo(200)
                 .WithMessage(Messages.Error_MinLength)
                 .LessThanOrEqualTo(500)
-                .WithMessage(Messages.Error_MaxLenght);
+                .WithMessage(Messages.Error_MaxLength);
 
-            RuleFor(x => x.Gender)
-                .IsInEnum()
-                .WithMessage(Messages.Error_PropertyIsRequired);
-
-            RuleFor(x => x.BoatSize)
-                .IsInEnum()
-                .WithMessage(Messages.Error_PropertyIsRequired);
-
-            RuleFor(x => x.Races)
+            RuleFor(x => x.SystemType)
                 .NotEmpty()
-                .WithMessage(Messages.Error_PropertyIsRequired);
+                .GreaterThan(0);
 
             When(x => x.Races != null && x.Races.Any(), () =>
             {
@@ -42,8 +30,27 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 RuleFor(x => x)
                     .Must(BeChronological)
                     .WithMessage(Messages.Error_Chronological);
+
+                RuleFor(x => x)
+                    .Must(MinCountOfTeams)
+                    .WithMessage(Messages.Error_NotEnoughTeam);
             });
 
+        }
+
+        private bool MinCountOfTeams(CreateFullGridDto dto)
+        {
+            if (dto.Races is null)
+            {
+                return false;
+            }
+
+            int countOfTeams = dto.Races
+                .SelectMany(c => c.Lanes)
+                .GroupBy(c => c.TeamId)
+                .Count();
+
+            return countOfTeams > 6;
         }
 
         private bool CountOfRacesShouldBeSingle(CreateFullGridDto dto)
@@ -77,7 +84,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 .OrderBy(r => r.SequenceNumber)
                 .ToList();
 
-            if (heats.Count() < 2)
+            if (heats.Count < 2)
             {
                 return false;
             }
