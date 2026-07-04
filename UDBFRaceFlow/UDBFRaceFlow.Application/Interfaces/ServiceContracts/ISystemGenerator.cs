@@ -7,8 +7,8 @@ namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
     public interface ISystemGenerator
     {
         bool ApplyParametrs(int raceType, RaceSystems raceSystems);
-        Task<Result> BuildGrid(CreateFullGridDto fullGridDto);
-        Task<Result> BuildSemifinal(Guid categoryId);
-        Task<Result> BuildFinal(Guid categoryId);
+        Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken);
+        Task<Result> BuildSemifinalAsync(Guid categoryId, CancellationToken cancellationToken);
+        Task<Result> BuildFinalAsync(Guid categoryId, CancellationToken cancellationToken);
     }
 }

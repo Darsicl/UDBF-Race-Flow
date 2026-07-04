@@ -29,9 +29,9 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             return raceSystems == RaceSystems.SystemA && systemType == 1;
         }
 
-        public async Task<Result> BuildGrid(CreateFullGridDto fullGridDto)
+        public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
         {
-            var validationResult = await _validator.ValidateAsync(fullGridDto);
+            var validationResult = await _validator.ValidateAsync(fullGridDto, cancellationToken);
 
             if (!validationResult.IsValid)
             {
@@ -67,7 +67,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 category.Races.Add(race);
             }
 
-            var existingRaces = await _raceRepository.GetAllRacesAsync();
+            var existingRaces = await _raceRepository.GetAllRacesAsync(cancellationToken);
             var allRaces = existingRaces.Concat(category.Races).ToList();
             var check = CheckIntervalTimeExtension.CheckInterval(allRaces);
 
@@ -78,9 +78,9 @@ namespace UDBFRaceFlow.Application.Services.SystemA
                 return Result.Fail(new Error(errorMsg));
             }
 
-            await _raceCategoryRepository.AddAsync(category);
+            await _raceCategoryRepository.AddAsync(category, cancellationToken);
 
-            await _raceCategoryRepository.SaveChangesAsync();
+            await _raceCategoryRepository.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(Messages.Info_FinishGenerateGrid, category.Id);
 
@@ -88,11 +88,11 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
         }
 
-        public async Task<Result> BuildSemifinal(Guid categoryId)
+        public async Task<Result> BuildSemifinalAsync(Guid categoryId, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation(Messages.Info_StartBuildRace, nameof(RaceType.Semifinal), categoryId);
 
-            RaceCategory? category = await _raceCategoryRepository.GetCategoryWithRacesAndLanesAsync(categoryId);
+            RaceCategory? category = await _raceCategoryRepository.GetCategoryWithRacesAndLanesAsync(categoryId, cancellationToken);
 
             if (category is null)
             {
@@ -132,18 +132,18 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             semi.Lanes.Add(new LaneData { StartLane = 3, TeamId = laneThreeTeam.TeamId, RaceId = semi.Id });
             semi.Lanes.Add(new LaneData { StartLane = 4, TeamId = laneFourTeam.TeamId, RaceId = semi.Id });
 
-            await _raceCategoryRepository.SaveChangesAsync();
+            await _raceCategoryRepository.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(Messages.Info_RaceWasBuilded, semi.RaceType, laneOneTeam.TeamId, laneTwoTeam.TeamId, laneThreeTeam.TeamId, laneFourTeam.TeamId);
 
             return Result.Ok();
         }
 
-        public async Task<Result> BuildFinal(Guid categoryId)
+        public async Task<Result> BuildFinalAsync(Guid categoryId, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation(Messages.Info_StartBuildRace, nameof(RaceType.Final), categoryId);
 
-            RaceCategory? category = await _raceCategoryRepository.GetCategoryWithRacesAndLanesAsync(categoryId);
+            RaceCategory? category = await _raceCategoryRepository.GetCategoryWithRacesAndLanesAsync(categoryId, cancellationToken);
 
             if (category is null)
             {
@@ -194,7 +194,7 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             final.Lanes.Add(new LaneData { StartLane = 3, TeamId = laneThreeTeam.TeamId, RaceId = final.Id });
             final.Lanes.Add(new LaneData { StartLane = 4, TeamId = laneFourTeam.TeamId, RaceId = final.Id });
 
-            await _raceCategoryRepository.SaveChangesAsync();
+            await _raceCategoryRepository.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(Messages.Info_RaceWasBuilded, final.RaceType, laneOneTeam.TeamId, laneTwoTeam.TeamId, laneThreeTeam.TeamId, laneFourTeam.TeamId);
 

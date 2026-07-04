@@ -12,7 +12,7 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
             _context = raceDbContext;
         }
 
-        public async Task<List<RaceData>> GetAllRacesAsync()
+        public async Task<List<RaceData>> GetAllRacesAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Races
                 .Include(c => c.Category)

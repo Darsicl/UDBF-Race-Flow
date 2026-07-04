@@ -12,19 +12,19 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
         {
-            await _context.Set<T>().AddAsync(entity);
+            await _context.Set<T>().AddAsync(entity, cancellationToken);
         }
 
-        public async Task<T?> GetByIdAsync(Guid Id)
+        public async Task<T?> GetByIdAsync(Guid Id, CancellationToken cancellationToken = default)
         {
-            return await _context.Set<T>().FindAsync(Id);
+            return await _context.Set<T>().FindAsync(Id, cancellationToken);
         }
 
         public Task UpdateAsync(T entity)

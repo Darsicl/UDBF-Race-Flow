@@ -19,7 +19,7 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
                 .GreaterThanOrEqualTo(200)
                 .WithMessage(Messages.Error_MinLength)
                 .LessThanOrEqualTo(500)
-                .WithMessage(Messages.Error_MaxLenght);
+                .WithMessage(Messages.Error_MaxLength);
 
             RuleFor(x => x.Gender)
                 .IsInEnum()

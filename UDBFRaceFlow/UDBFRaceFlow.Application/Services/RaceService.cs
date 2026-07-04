@@ -20,11 +20,11 @@ namespace UDBFRaceFlow.Application.Services
             _logger = logger;
         }
 
-        public async Task<Result> CheckFinishOfHeats(Guid categoryId)
+        public async Task<Result> CheckFinishOfHeats(Guid categoryId, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Method that checking, is heats finished, begins");
 
-            var category = await _raceRepo.GetCategoryWithRacesAndLanesAsync(categoryId);
+            var category = await _raceRepo.GetCategoryWithRacesAndLanesAsync(categoryId, cancellationToken);
 
             if (category is null)
             {
@@ -48,7 +48,7 @@ namespace UDBFRaceFlow.Application.Services
                     return Result.Fail(new Error(errorMsg));
                 }
 
-                var buildResult = await systemForSemis.BuildSemifinal(categoryId);
+                var buildResult = await systemForSemis.BuildSemifinalAsync(categoryId, cancellationToken);
 
                 if (buildResult.IsFailed)
                 {
@@ -65,11 +65,11 @@ namespace UDBFRaceFlow.Application.Services
             return Result.Ok();
         }
 
-        public async Task<Result> CheckFinishOfSemis(Guid categoryId)
+        public async Task<Result> CheckFinishOfSemis(Guid categoryId, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Method that cheking, is semis finished, begins");
 
-            var category = await _raceRepo.GetCategoryWithRacesAndLanesAsync(categoryId);
+            var category = await _raceRepo.GetCategoryWithRacesAndLanesAsync(categoryId, cancellationToken);
 
             if (category is null)
             {
@@ -93,7 +93,7 @@ namespace UDBFRaceFlow.Application.Services
                     return Result.Fail(new Error(errorMsg));
                 }
 
-                var buildResult = await systemForFinals.BuildFinal(categoryId);
+                var buildResult = await systemForFinals.BuildFinalAsync(categoryId, cancellationToken);
 
                 if (buildResult.IsFailed)
                 {

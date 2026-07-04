@@ -11,12 +11,12 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
         {
             _context = raceDbContext;
         }
-        public async Task<RaceCategory?> GetCategoryWithRacesAndLanesAsync(Guid id)
+        public async Task<RaceCategory?> GetCategoryWithRacesAndLanesAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Categories
                 .Include(c => c.Races)
                 .ThenInclude(c => c.Lanes)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
     }
 }

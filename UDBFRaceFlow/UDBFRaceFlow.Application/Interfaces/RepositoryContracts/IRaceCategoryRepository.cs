@@ -4,6 +4,6 @@ namespace UDBFRaceFlow.Application.Interfaces.RepositoryContracts
 {
     public interface IRaceCategoryRepository : IRaceRepository<RaceCategory>
     {
-        Task<RaceCategory?> GetCategoryWithRacesAndLanesAsync(Guid id);
+        Task<RaceCategory?> GetCategoryWithRacesAndLanesAsync(Guid id, CancellationToken cancellationToken);
     }
 }

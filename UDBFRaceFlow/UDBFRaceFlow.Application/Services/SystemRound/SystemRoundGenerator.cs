@@ -29,7 +29,7 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
         {
             return raceSystems == RaceSystems.Round && SystemType == 1;
         }
-        public async Task<Result> BuildGrid(CreateFullGridDto fullGridDto)
+        public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
         {
             var category = fullGridDto.Adapt<RaceCategory>();
 
@@ -74,7 +74,7 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
 
             generator.CreateRestRound(category);
 
-            var existingRaces = await _raceRepository.GetAllRacesAsync();
+            var existingRaces = await _raceRepository.GetAllRacesAsync(cancellationToken);
             var allRaces = existingRaces.Concat(category.Races).ToList();
             var check = CheckIntervalTimeExtension.CheckInterval(allRaces);
 
@@ -85,20 +85,20 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
                 return Result.Fail(new Error(errorMsg));
             }
 
-            await _raceCategoryRepository.AddAsync(category);
-            await _raceCategoryRepository.SaveChangesAsync();
+            await _raceCategoryRepository.AddAsync(category, cancellationToken);
+            await _raceCategoryRepository.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(Messages.Info_FinishGenerateGrid, category.Id);
 
             return Result.Ok();
 
         }
-        public Task<Result> BuildSemifinal(Guid categoryId)
+        public Task<Result> BuildSemifinalAsync(Guid categoryId, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(Result.Ok());
         }
 
-        public Task<Result> BuildFinal(Guid categoryId)
+        public Task<Result> BuildFinalAsync(Guid categoryId, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(Result.Ok());
         }

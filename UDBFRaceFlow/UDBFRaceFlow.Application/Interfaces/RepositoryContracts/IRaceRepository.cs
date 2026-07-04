@@ -2,14 +2,14 @@
 {
     public interface IRaceRepository<T> where T : class
     {
-        Task AddAsync(T entity);
+        Task AddAsync(T entity, CancellationToken cancellationToken);
 
-        Task<T?> GetByIdAsync(Guid Id);
+        Task<T?> GetByIdAsync(Guid Id, CancellationToken cancellationToken);
 
-        Task UpdateAsync(T entity);
+        Task UpdateAsync(T entity, CancellationToken cancellationToken);
 
-        Task DeleteAsync(T entity);
+        Task DeleteAsync(T entity, CancellationToken cancellationToken);
 
-        Task SaveChangesAsync();
+        Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
