@@ -6,7 +6,7 @@ namespace UDBFRaceFlow.Application.Services
 {
     public class BaseSystemValidator : AbstractValidator<CreateFullGridDto>
     {
-        public BaseSystemValidator()
+        public BaseSystemValidator(IValidator<RaceCreationDto> baseValidator)
         {
             RuleFor(x => x.RaceSystem)
                 .IsInEnum()
@@ -26,7 +26,13 @@ namespace UDBFRaceFlow.Application.Services
 
             RuleFor(x => x.Races)
                 .NotEmpty()
-                .WithMessage(Messages.Error_PropertyIsRequired);
+                .WithMessage(Messages.Error_PropertyIsRequired)
+                .Must(race => race == null || race.Select(r => r.RaceNumber).Distinct().Count() == race.Count)
+                .Must(race => race == null || race.Select(r => r.RaceTime).Distinct().Count() == race.Count)
+                .WithMessage(Messages.Error_PropertyNotUnique);
+
+            RuleForEach(x => x.Races)
+                .SetValidator(baseValidator);
         }
     }
 }

@@ -6,9 +6,9 @@
 
         Task<T?> GetByIdAsync(Guid Id, CancellationToken cancellationToken);
 
-        Task UpdateAsync(T entity, CancellationToken cancellationToken);
+        Task UpdateAsync(T entity);
 
-        Task DeleteAsync(T entity, CancellationToken cancellationToken);
+        Task DeleteAsync(T entity);
 
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }

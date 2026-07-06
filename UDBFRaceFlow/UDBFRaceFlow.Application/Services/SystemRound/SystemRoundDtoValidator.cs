@@ -5,14 +5,10 @@ using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services.SystemRound
 {
-    public class SystemRoundDtoValidator : AbstractValidator<CreateFullGridDto>
+    public class SystemRoundDtoValidator : BaseSystemValidator
     {
-        public SystemRoundDtoValidator()
+        public SystemRoundDtoValidator(IValidator<RaceCreationDto> baseValidator) : base(baseValidator)
         {
-            RuleFor(x => x.RaceSystem)
-                .IsInEnum()
-                .WithMessage(Messages.Error_PropertyIsRequired);
-
             RuleFor(x => x.Distance)
                 .NotEmpty()
                 .WithMessage(Messages.Error_PropertyIsRequired)
@@ -20,22 +16,6 @@ namespace UDBFRaceFlow.Application.Services.SystemRound
                 .WithMessage(Messages.Error_MinLength)
                 .LessThanOrEqualTo(500)
                 .WithMessage(Messages.Error_MaxLength);
-
-            RuleFor(x => x.Gender)
-                .IsInEnum()
-                .WithMessage(Messages.Error_PropertyIsRequired);
-
-            RuleFor(x => x.RaceAge)
-                .IsInEnum()
-                .WithMessage(Messages.Error_PropertyIsRequired);
-
-            RuleFor(x => x.BoatSize)
-                .IsInEnum()
-                .WithMessage(Messages.Error_PropertyIsRequired);
-
-            RuleFor(x => x.Races)
-                .NotEmpty()
-                .WithMessage(Messages.Error_PropertyIsRequired);
 
             When(x => x.Races != null && x.Races.Any(), () =>
             {

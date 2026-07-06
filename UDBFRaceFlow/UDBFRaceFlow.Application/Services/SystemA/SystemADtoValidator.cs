@@ -5,9 +5,9 @@ using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services.SystemA
 {
-    public class SystemADtoValidator : AbstractValidator<CreateFullGridDto>
+    public class SystemADtoValidator : BaseSystemValidator
     {
-        public SystemADtoValidator()
+        public SystemADtoValidator(IValidator<RaceCreationDto> baseValidator) : base(baseValidator)
         {
             RuleFor(x => x.Distance)
                 .NotEmpty()

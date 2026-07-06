@@ -169,6 +169,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Property {0} must be unique.
+        /// </summary>
+        public static string Error_PropertyNotUnique {
+            get {
+                return ResourceManager.GetString("Error PropertyNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Race {0} is null.
         /// </summary>
         public static string Error_RaceIsNull {

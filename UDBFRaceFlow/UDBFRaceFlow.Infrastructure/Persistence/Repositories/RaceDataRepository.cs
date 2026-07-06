@@ -18,5 +18,15 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
                 .Include(c => c.Category)
                 .ToListAsync();
         }
+
+        public async Task<bool> IsRaceDateUnique(DateTime raceTime, CancellationToken cancellationToken)
+        {
+            return !await _context.Races.AnyAsync(r => r.RaceTime == raceTime, cancellationToken);
+        }
+
+        public async Task<bool> IsRaceNumberUnique(int raceNumber, CancellationToken cancellationToken)
+        {
+            return !await _context.Races.AnyAsync(r => r.RaceNumber == raceNumber, cancellationToken);
+        }
     }
 }

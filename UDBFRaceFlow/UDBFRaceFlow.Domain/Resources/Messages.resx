@@ -174,4 +174,7 @@
   <data name="Error ValidationFailed" xml:space="preserve">
     <value>Validation for {0} failed with errors: {0}</value>
   </data>
+  <data name="Error PropertyNotUnique" xml:space="preserve">
+    <value>Property {0} must be unique</value>
+  </data>
 </root>
