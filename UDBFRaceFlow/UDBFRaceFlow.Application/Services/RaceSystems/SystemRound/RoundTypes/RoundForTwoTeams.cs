@@ -3,7 +3,7 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.SystemRound.RoundTypes
+namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound.RoundTypes
 {
     public class RoundForTwoTeams : IRoundGenerator
     {

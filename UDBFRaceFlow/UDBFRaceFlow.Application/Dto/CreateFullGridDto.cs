@@ -2,5 +2,5 @@
 
 namespace UDBFRaceFlow.Application.Dto
 {
-    public record CreateFullGridDto(RaceSystems RaceSystem, int SystemType, RaceAge RaceAge, int Distance, BoatSize BoatSize, GenderCategory Gender, List<RaceCreationDto> Races);
+    public record CreateFullGridDto(RaceSystem RaceSystem, int SystemType, RaceAge RaceAge, int Distance, BoatSize BoatSize, GenderCategory Gender, List<RaceCreationDto> Races);
 }

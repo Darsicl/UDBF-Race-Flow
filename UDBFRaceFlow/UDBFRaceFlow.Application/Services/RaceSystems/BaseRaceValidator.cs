@@ -3,7 +3,7 @@ using UDBFRaceFlow.Application.Dto;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services
+namespace UDBFRaceFlow.Application.Services.RaceSystems
 {
     public class BaseRaceValidator : AbstractValidator<RaceCreationDto>
     {

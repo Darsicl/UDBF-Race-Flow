@@ -3,13 +3,13 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.SystemRound.RoundTypes
+namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound.RoundTypes
 {
-    public class RoundForFourTeams : IRoundGenerator
+    public class RoundForThreeTeams : IRoundGenerator
     {
         public bool ApplyParametrs(int CountOfTeams)
         {
-            return CountOfTeams == 4;
+            return CountOfTeams == 3;
         }
 
         public List<RaceData> CreateRestRound(RaceCategory category)
@@ -19,7 +19,6 @@ namespace UDBFRaceFlow.Application.Services.SystemRound.RoundTypes
 
             var final = category.Races.FirstOrDefault(f => f.RaceType == RaceType.Final);
             ArgumentNullException.ThrowIfNull(final, string.Format(Messages.Error_RaceIsNull, final));
-
 
             var heatLanes = category.Races
                 .Where(h => h.RaceType == RaceType.Heat)
@@ -35,20 +34,16 @@ namespace UDBFRaceFlow.Application.Services.SystemRound.RoundTypes
             var teamThree = heatLanes.FirstOrDefault(l => l.StartLane == 3);
             ArgumentNullException.ThrowIfNull(teamThree, string.Format(Messages.Error_LaneIsNull, teamThree));
 
-            var teamFour = heatLanes.FirstOrDefault(l => l.StartLane == 4);
-            ArgumentNullException.ThrowIfNull(teamFour, string.Format(Messages.Error_LaneIsNull, teamFour));
 
             semi.Lanes.Clear();
-            semi.Lanes.Add(new LaneData { StartLane = 1, TeamId = teamThree.TeamId, RaceId = semi.Id });
-            semi.Lanes.Add(new LaneData { StartLane = 2, TeamId = teamFour.TeamId, RaceId = semi.Id });
+            semi.Lanes.Add(new LaneData { StartLane = 1, TeamId = teamTwo.TeamId, RaceId = semi.Id });
+            semi.Lanes.Add(new LaneData { StartLane = 2, TeamId = teamThree.TeamId, RaceId = semi.Id });
             semi.Lanes.Add(new LaneData { StartLane = 3, TeamId = teamOne.TeamId, RaceId = semi.Id });
-            semi.Lanes.Add(new LaneData { StartLane = 4, TeamId = teamTwo.TeamId, RaceId = semi.Id });
 
             final.Lanes.Clear();
-            final.Lanes.Add(new LaneData { StartLane = 1, TeamId = teamFour.TeamId, RaceId = final.Id });
+            final.Lanes.Add(new LaneData { StartLane = 1, TeamId = teamThree.TeamId, RaceId = final.Id });
             final.Lanes.Add(new LaneData { StartLane = 2, TeamId = teamOne.TeamId, RaceId = final.Id });
             final.Lanes.Add(new LaneData { StartLane = 3, TeamId = teamTwo.TeamId, RaceId = final.Id });
-            final.Lanes.Add(new LaneData { StartLane = 4, TeamId = teamThree.TeamId, RaceId = final.Id });
 
             return category.Races;
         }

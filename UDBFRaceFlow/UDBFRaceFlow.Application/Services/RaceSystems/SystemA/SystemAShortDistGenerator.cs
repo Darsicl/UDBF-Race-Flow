@@ -8,25 +8,25 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.SystemA
+namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
 {
-    public class SystemALongDistGenerator : ISystemGenerator
+    public class SystemAShortDistGenerator : ISystemGenerator
     {
         private readonly IRaceCategoryRepository _raceCategoryRepository;
         private readonly IRaceDataRepository _raceRepository;
-        private readonly ILogger<SystemALongDistGenerator> _logger;
+        private readonly ILogger<SystemAShortDistGenerator> _logger;
         private readonly SystemADtoValidator _validator;
 
-        public SystemALongDistGenerator(IRaceCategoryRepository raceCategoryRepository, ILogger<SystemALongDistGenerator> logger, IRaceDataRepository raceRepository, SystemADtoValidator validator)
+        public SystemAShortDistGenerator(IRaceCategoryRepository raceCategoryRepository, ILogger<SystemAShortDistGenerator> logger, IRaceDataRepository raceRepository, SystemADtoValidator validator)
         {
             _raceCategoryRepository = raceCategoryRepository;
             _logger = logger;
             _raceRepository = raceRepository;
             _validator = validator;
         }
-        public bool ApplyParametrs(int systemType, RaceSystems raceSystems)
+        public bool ApplyParametrs(int systemType, RaceSystem raceSystem)
         {
-            return raceSystems == RaceSystems.SystemA && systemType == 1;
+            return raceSystem == RaceSystem.SystemA && systemType == 2;
         }
 
         public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
@@ -121,8 +121,8 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             }
 
             LaneData? laneOneTeam = thirdPlacesFromHeat[0];
-            LaneData? laneTwoTeam = secondPlacesFromHeat[0];
-            LaneData? laneThreeTeam = secondPlacesFromHeat[1];
+            LaneData? laneTwoTeam = secondPlacesFromHeat[1];
+            LaneData? laneThreeTeam = secondPlacesFromHeat[0];
             LaneData? laneFourTeam = thirdPlacesFromHeat[1];
 
             semi.Lanes.Clear();
@@ -177,11 +177,11 @@ namespace UDBFRaceFlow.Application.Services.SystemA
             final.Lanes.Clear();
 
             var laneOneTeam = semi
-                .FirstOrDefault(s => s.FinishPlace == 1);
-            var laneTwoTeam = firstPlacesFromHeat[0];
-            var laneThreeTeam = firstPlacesFromHeat[1];
-            var laneFourTeam = semi
                 .FirstOrDefault(s => s.FinishPlace == 2);
+            var laneTwoTeam = firstPlacesFromHeat[1];
+            var laneThreeTeam = firstPlacesFromHeat[0];
+            var laneFourTeam = semi
+                .FirstOrDefault(s => s.FinishPlace == 1);
 
             if (laneFourTeam is null || laneOneTeam is null)
             {
@@ -213,3 +213,4 @@ namespace UDBFRaceFlow.Application.Services.SystemA
 
     }
 }
+

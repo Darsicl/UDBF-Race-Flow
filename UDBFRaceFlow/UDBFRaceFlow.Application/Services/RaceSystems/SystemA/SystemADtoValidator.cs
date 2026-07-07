@@ -3,7 +3,7 @@ using UDBFRaceFlow.Application.Dto;
 using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.SystemA
+namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
 {
     public class SystemADtoValidator : BaseSystemValidator
     {

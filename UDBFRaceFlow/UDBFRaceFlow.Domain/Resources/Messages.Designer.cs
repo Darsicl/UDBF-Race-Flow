@@ -178,6 +178,15 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} property should be equal {1}.
+        /// </summary>
+        public static string Error_PropertyShouldBeEqual {
+            get {
+                return ResourceManager.GetString("Error PropertyShouldBeEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Race {0} is null.
         /// </summary>
         public static string Error_RaceIsNull {

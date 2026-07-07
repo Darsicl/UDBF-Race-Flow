@@ -23,6 +23,26 @@ public static class FinishTimeExtension
 
         return finalLeaderBoard;
     }
+
+    public static List<TeamRoundResultDto> CanculateLongSystemLeaderBoard(this RaceCategory category)
+    {
+        var finalLeaderBoard = category.Races
+                .Where(f => f.RaceType == RaceType.Final && f.RaceStatus == RaceStatus.Finished)
+                .SelectMany(f => f.Lanes)
+                .Where(f => f.FinishTime > TimeSpan.Zero)
+                .GroupBy(f => f.TeamId)
+                .Select(g => new TeamRoundResultDto
+                (
+                    g.Key,
+                    g.Select(f => f.FinishTime).FirstOrDefault(),
+                    g.Count()
+                ))
+                .OrderByDescending(f => f.RacesCount)
+                .ThenBy(f => f.TotalTime)
+                .ToList();
+
+        return finalLeaderBoard;
+    }
 }
 
 
