@@ -3,4 +3,5 @@
   <Project Path="UDBFRaceFlow.Domain/UDBFRaceFlow.Domain.csproj" Id="db3867e4-3952-4718-83c3-71bb55e86906" />
   <Project Path="UDBFRaceFlow.Infrastructure/UDBFRaceFlow.Infrastructure.csproj" Id="bd58381e-dacf-4943-b812-2c0785fe108e" />
   <Project Path="UDBFRaceFlow.WebApi/UDBFRaceFlow.WebApi.csproj" />
+  <Project Path="UDBFRaceFlow.XUnitTest/UDBFRaceFlow.XUnitTest.csproj" Id="910dadaf-2ac8-463f-a360-1bf6f0c84450" />
 </Solution>

@@ -52,17 +52,15 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemLong
                 var race = raceDto.Adapt<RaceData>();
 
                 race.RaceStatus = RaceStatus.Scheduled;
-
-                race.CategoryId = category.Id;
-
                 race.OriginalDateTime = race.RaceTime;
 
-                foreach (var lane in race.Lanes)
+                foreach (var laneDto in race.Lanes)
                 {
-                    lane.RaceId = race.Id;
+                    var lane = laneDto.Adapt<LaneData>();
+                    race.AddLane(lane);
                 }
 
-                category.Races.Add(race);
+                category.AddRace(race);
             }
 
             var existingRaces = await _raceDataRepository.GetAllRacesAsync(cancellationToken);

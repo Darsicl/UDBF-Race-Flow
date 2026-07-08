@@ -10,14 +10,14 @@ using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
 {
-    public class SystemAShortDistGenerator : ISystemGenerator
+    public class SystemAFirstTypeGenerator : ISystemGenerator
     {
         private readonly IRaceCategoryRepository _raceCategoryRepository;
         private readonly IRaceDataRepository _raceRepository;
-        private readonly ILogger<SystemAShortDistGenerator> _logger;
+        private readonly ILogger<SystemAFirstTypeGenerator> _logger;
         private readonly SystemADtoValidator _validator;
 
-        public SystemAShortDistGenerator(IRaceCategoryRepository raceCategoryRepository, ILogger<SystemAShortDistGenerator> logger, IRaceDataRepository raceRepository, SystemADtoValidator validator)
+        public SystemAFirstTypeGenerator(IRaceCategoryRepository raceCategoryRepository, ILogger<SystemAFirstTypeGenerator> logger, IRaceDataRepository raceRepository, SystemADtoValidator validator)
         {
             _raceCategoryRepository = raceCategoryRepository;
             _logger = logger;
@@ -26,7 +26,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
         }
         public bool ApplyParametrs(int systemType, RaceSystem raceSystem)
         {
-            return raceSystem == RaceSystem.SystemA && systemType == 2;
+            return raceSystem == RaceSystem.SystemA && systemType == 1;
         }
 
         public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
@@ -54,17 +54,15 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
                 RaceData race = raceDto.Adapt<RaceData>();
 
                 race.RaceStatus = RaceStatus.Scheduled;
-
-                race.CategoryId = category.Id;
-
                 race.OriginalDateTime = race.RaceTime;
 
-                foreach (LaneData lane in race.Lanes)
+                foreach (LaneData laneDto in race.Lanes)
                 {
-                    lane.RaceId = race.Id;
+                    var lane = laneDto.Adapt<LaneData>();
+                    race.AddLane(lane);
                 }
 
-                category.Races.Add(race);
+                category.AddRace(race);
             }
 
             var existingRaces = await _raceRepository.GetAllRacesAsync(cancellationToken);

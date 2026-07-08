@@ -10,12 +10,13 @@ namespace UDBFRaceFlow.Application.Mapping
         {
             config.NewConfig<CreateFullGridDto, RaceCategory>()
                 .Map(dest => dest.Id, src => Guid.CreateVersion7())
-                .Map(dest => dest.Distance, src => src.Distance);
+                .Map(dest => dest.Distance, src => src.Distance)
+                .Ignore(dest => dest.Races);
 
             config.NewConfig<RaceCreationDto, RaceData>()
                 .Map(dest => dest.Id, src => Guid.CreateVersion7())
                 .Map(dest => dest.RaceTime, src => src.RaceTime)
-                .Map(dest => dest.Lanes, src => src.Lanes);
+                .Ignore(dest => dest.Lanes);
 
             config.NewConfig<LaneAssignmentDto, LaneData>()
                 .Map(dest => dest.TeamId, src => src.TeamId)

@@ -31,6 +31,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound
         {
             return raceSystems == Domain.Enums.RaceSystem.Round && SystemType == 1;
         }
+
         public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(fullGridDto, cancellationToken);
@@ -51,22 +52,24 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound
                 .ThenBy(s => s.SequenceNumber)
                 .ToList();
 
+            category.Races.Clear();
+
             foreach (var raceDto in sortRaces)
             {
                 var race = raceDto.Adapt<RaceData>();
 
                 race.RaceStatus = RaceStatus.Scheduled;
-
-                race.CategoryId = category.Id;
-
                 race.OriginalDateTime = race.RaceTime;
 
-                foreach (var lane in race.Lanes)
+                race.Lanes.Clear();
+
+                foreach (var laneDto in raceDto.Lanes)
                 {
-                    lane.RaceId = race.Id;
+                    var lane = laneDto.Adapt<LaneData>();
+                    race.AddLane(lane);
                 }
 
-                category.Races.Add(race);
+                category.AddRace(race);
             }
 
             var countOfTeams = category.Races

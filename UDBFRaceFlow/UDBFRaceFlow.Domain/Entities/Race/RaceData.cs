@@ -32,5 +32,12 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         public Guid CategoryId { get; set; }
 
         public List<LaneData> Lanes { get; set; } = new List<LaneData>();
+
+        public void AddLane(LaneData lane)
+        {
+            lane.Race = this;
+            lane.RaceId = this.Id;
+            Lanes.Add(lane);
+        }
     }
 }
