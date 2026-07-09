@@ -4,9 +4,9 @@ using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services
 {
-    public class BaseSystemValidator : AbstractValidator<CreateFullGridDto>
+    public class BaseSystemValidator : AbstractValidator<CreateCategoryDto>
     {
-        public BaseSystemValidator(IValidator<RaceCreationDto> baseValidator)
+        public BaseSystemValidator(IValidator<CreateRaceDto> baseValidator)
         {
             RuleFor(x => x.RaceSystem)
                 .IsInEnum()

@@ -29,7 +29,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemLong
         {
             return raceSystems == RaceSystem.Long && raceType == 1;
         }
-        public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
+        public async Task<Result> BuildGridAsync(CreateCategoryDto fullGridDto, CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(fullGridDto, cancellationToken);
 
@@ -42,7 +42,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemLong
 
             var category = fullGridDto.Adapt<RaceCategory>();
 
-            List<RaceCreationDto> sortedRaces = fullGridDto.Races
+            List<CreateRaceDto> sortedRaces = fullGridDto.Races
                 .OrderBy(s => s.RaceType)
                 .ThenBy(s => s.SequenceNumber)
                 .ToList();

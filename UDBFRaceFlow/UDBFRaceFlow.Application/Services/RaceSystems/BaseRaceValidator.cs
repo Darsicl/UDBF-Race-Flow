@@ -5,7 +5,7 @@ using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services.RaceSystems
 {
-    public class BaseRaceValidator : AbstractValidator<RaceCreationDto>
+    public class BaseRaceValidator : AbstractValidator<CreateRaceDto>
     {
         private readonly IRaceDataRepository _raceRepository;
         public BaseRaceValidator(IRaceDataRepository raceRepository)

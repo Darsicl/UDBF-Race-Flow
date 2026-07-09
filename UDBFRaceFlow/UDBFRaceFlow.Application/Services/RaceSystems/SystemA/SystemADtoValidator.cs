@@ -7,7 +7,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
 {
     public class SystemADtoValidator : BaseSystemValidator
     {
-        public SystemADtoValidator(IValidator<RaceCreationDto> baseValidator) : base(baseValidator)
+        public SystemADtoValidator(IValidator<CreateRaceDto> baseValidator) : base(baseValidator)
         {
             RuleFor(x => x.Distance)
                 .NotEmpty()
@@ -38,7 +38,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
 
         }
 
-        private bool MinCountOfTeams(CreateFullGridDto dto)
+        private bool MinCountOfTeams(CreateCategoryDto dto)
         {
             if (dto.Races is null)
             {
@@ -53,7 +53,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
             return countOfTeams > 6;
         }
 
-        private bool CountOfRacesShouldBeSingle(CreateFullGridDto dto)
+        private bool CountOfRacesShouldBeSingle(CreateCategoryDto dto)
         {
             if (dto.Races == null)
             {
@@ -72,14 +72,14 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
             return sf == 1 && final == 1 && heats == 2;
         }
 
-        private bool BeChronological(CreateFullGridDto dto)
+        private bool BeChronological(CreateCategoryDto dto)
         {
             if (dto.Races == null)
             {
                 return false;
             }
 
-            List<RaceCreationDto> heats = dto.Races
+            List<CreateRaceDto> heats = dto.Races
                 .Where(r => r.RaceType == RaceType.Heat)
                 .OrderBy(r => r.SequenceNumber)
                 .ToList();

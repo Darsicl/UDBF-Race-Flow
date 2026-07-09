@@ -29,7 +29,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
             return raceSystem == RaceSystem.SystemA && systemType == 1;
         }
 
-        public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
+        public async Task<Result> BuildGridAsync(CreateCategoryDto fullGridDto, CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(fullGridDto, cancellationToken);
 
@@ -44,12 +44,12 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemA
 
             _logger.LogInformation(Messages.Info_StartGeneratingGrid, category.Id);
 
-            List<RaceCreationDto> sortRaces = fullGridDto.Races
+            List<CreateRaceDto> sortRaces = fullGridDto.Races
                 .OrderBy(r => r.RaceType)
                 .ThenBy(r => r.SequenceNumber)
                 .ToList();
 
-            foreach (RaceCreationDto raceDto in sortRaces)
+            foreach (CreateRaceDto raceDto in sortRaces)
             {
                 RaceData race = raceDto.Adapt<RaceData>();
 

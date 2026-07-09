@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Mapster;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using UDBFRaceFlow.Application.Dto;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
+using UDBFRaceFlow.Application.Mapping;
 using UDBFRaceFlow.Application.Services.RaceSystems.SystemRound;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
@@ -26,7 +28,7 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
             _loggerMock = Substitute.For<ILogger<SystemRoundGenerator>>();
             _roundGeneratorMock = Substitute.For<IRoundGenerator>();
 
-            var raceCreationValidatorMock = Substitute.For<FluentValidation.IValidator<RaceCreationDto>>();
+            var raceCreationValidatorMock = Substitute.For<FluentValidation.IValidator<CreateRaceDto>>();
             _validator = new SystemRoundDtoValidator(raceCreationValidatorMock);
 
             var roundGenerators = new List<IRoundGenerator> { _roundGeneratorMock };
@@ -64,7 +66,7 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
         public async Task BuildGridAsync_WhenValidationFails_ReturnsFail()
         {
             // Arrange
-            var dto = new CreateFullGridDto(
+            var dto = new CreateCategoryDto(
                 RaceSystem: RaceSystem.Round,
                 SystemType: 1,
                 RaceAge: RaceAge.Premier,
@@ -87,18 +89,18 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
         public async Task BuildGridAsync_WhenRoundGeneratorNotFound_ReturnsFail()
         {
             // Arrange
-            var raceDto = new RaceCreationDto(
+            var raceDto = new CreateRaceDto(
                 1,
                 DateTime.UtcNow,
                 1,
                 RaceType.Heat,
-                new List<LaneAssignmentDto>
+                new List<CreateLaneDto>
                 {
-                    new LaneAssignmentDto(Guid.NewGuid(), 1)
+                    new CreateLaneDto(Guid.NewGuid(), 1)
                 }
             );
 
-            var dto = new CreateFullGridDto(RaceSystem.Round, 1, RaceAge.Premier, 200, BoatSize.D12, GenderCategory.Mix, new() { raceDto });
+            var dto = new CreateCategoryDto(RaceSystem.Round, 1, RaceAge.Premier, 200, BoatSize.D12, GenderCategory.Mix, new() { raceDto });
             var token = TestContext.Current.CancellationToken;
 
             _roundGeneratorMock.ApplyParametrs(1).Returns(false);
@@ -118,37 +120,39 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
         public async Task BuildGridAsync_WhenDataIsValidAndGeneratorFound_CallsCreateRestRoundAndSaves()
         {
             // Arrange
+            TypeAdapterConfig.GlobalSettings.Scan(typeof(RaceMappingConfig).Assembly);
+
             var futureRaceTime = DateTime.UtcNow.AddDays(1);
 
-            var heatRace = new RaceCreationDto(
+            var heatRace = new CreateRaceDto(
                 RaceNumber: 1,
                 RaceTime: futureRaceTime,
                 SequenceNumber: 1,
                 RaceType: RaceType.Heat,
-                Lanes: new List<LaneAssignmentDto>
+                Lanes: new List<CreateLaneDto>
                 {
-            new LaneAssignmentDto(Guid.NewGuid(), 1),
-            new LaneAssignmentDto(Guid.NewGuid(), 2)
+            new CreateLaneDto(Guid.NewGuid(), 1),
+            new CreateLaneDto(Guid.NewGuid(), 2)
                 }
             );
 
-            var semiRace = new RaceCreationDto(
+            var semiRace = new CreateRaceDto(
                 RaceNumber: 2,
                 RaceTime: futureRaceTime.AddMinutes(30),
                 SequenceNumber: 1,
                 RaceType: RaceType.Semifinal,
-                Lanes: new List<LaneAssignmentDto> { new LaneAssignmentDto(Guid.Empty, 1) }
+                Lanes: new List<CreateLaneDto> { }
             );
 
-            var finalRace = new RaceCreationDto(
+            var finalRace = new CreateRaceDto(
                 RaceNumber: 3,
                 RaceTime: futureRaceTime.AddMinutes(60),
                 SequenceNumber: 1,
                 RaceType: RaceType.Final,
-                Lanes: new List<LaneAssignmentDto> { new LaneAssignmentDto(Guid.Empty, 1) }
+                Lanes: new List<CreateLaneDto> { }
             );
 
-            var dto = new CreateFullGridDto(
+            var dto = new CreateCategoryDto(
                 RaceSystem.Round,
                 1,
                 RaceAge.Premier,
@@ -161,9 +165,6 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
             var token = TestContext.Current.CancellationToken;
 
             _roundGeneratorMock.ApplyParametrs(2).Returns(true);
-            _roundGeneratorMock.When(g => g.CreateRestRound(Arg.Any<RaceCategory>()))
-                .Do(x => { });
-
             _raceRepoMock.GetAllRacesAsync(token).Returns(new List<RaceData>());
 
             // Act

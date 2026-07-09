@@ -7,7 +7,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemLong
 {
     public class SystemLongDtoValidator : BaseSystemValidator
     {
-        public SystemLongDtoValidator(IValidator<RaceCreationDto> validator) : base(validator)
+        public SystemLongDtoValidator(IValidator<CreateRaceDto> validator) : base(validator)
         {
             RuleFor(x => x.Distance)
                 .Equal(2000)
@@ -29,7 +29,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemLong
             });
         }
 
-        private bool MinCountOfTeams(CreateFullGridDto dto)
+        private bool MinCountOfTeams(CreateCategoryDto dto)
         {
             if (dto.Races is null)
             {
@@ -44,7 +44,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemLong
             return countOfTeams > 1;
         }
 
-        private bool CountOfRacesShouldBeSingle(CreateFullGridDto dto)
+        private bool CountOfRacesShouldBeSingle(CreateCategoryDto dto)
         {
             if (dto.Races == null)
             {
@@ -63,14 +63,14 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemLong
             return sf == 0 && final >= 1 && heats == 0;
         }
 
-        private bool BeChronological(CreateFullGridDto dto)
+        private bool BeChronological(CreateCategoryDto dto)
         {
             if (dto.Races == null)
             {
                 return false;
             }
 
-            List<RaceCreationDto> finals = dto.Races
+            List<CreateRaceDto> finals = dto.Races
                 .Where(r => r.RaceType == RaceType.Final)
                 .OrderBy(r => r.SequenceNumber)
                 .ToList();

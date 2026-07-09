@@ -7,7 +7,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound
 {
     public class SystemRoundDtoValidator : BaseSystemValidator
     {
-        public SystemRoundDtoValidator(IValidator<RaceCreationDto> baseValidator) : base(baseValidator)
+        public SystemRoundDtoValidator(IValidator<CreateRaceDto> baseValidator) : base(baseValidator)
         {
             RuleFor(x => x.Distance)
                 .NotEmpty()
@@ -26,7 +26,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound
 
         }
 
-        private bool CountOfRacesShouldBeSingle(CreateFullGridDto dto)
+        private bool CountOfRacesShouldBeSingle(CreateCategoryDto dto)
         {
             if (dto.Races == null)
             {

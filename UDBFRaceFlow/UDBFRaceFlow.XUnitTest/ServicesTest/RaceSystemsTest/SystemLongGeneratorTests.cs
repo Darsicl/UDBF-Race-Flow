@@ -23,7 +23,7 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
             _raceDataRepoMock = Substitute.For<IRaceDataRepository>();
             _loggerMock = Substitute.For<ILogger<SystemLongGenerator>>();
 
-            var raceCreationValidatorMock = Substitute.For<FluentValidation.IValidator<RaceCreationDto>>();
+            var raceCreationValidatorMock = Substitute.For<FluentValidation.IValidator<CreateRaceDto>>();
             _validator = new SystemLongDtoValidator(raceCreationValidatorMock);
 
             _sut = new SystemLongGenerator(
@@ -58,7 +58,7 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
         public async Task BuildGridAsync_WhenValidationFails_ReturnsFail()
         {
             // Arrange
-            var dto = new CreateFullGridDto(
+            var dto = new CreateCategoryDto(
                 RaceSystem: RaceSystem.Long,
                 SystemType: 1,
                 RaceAge: RaceAge.Premier,

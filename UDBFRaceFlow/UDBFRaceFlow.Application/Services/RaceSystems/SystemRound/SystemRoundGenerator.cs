@@ -32,7 +32,7 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound
             return raceSystems == Domain.Enums.RaceSystem.Round && SystemType == 1;
         }
 
-        public async Task<Result> BuildGridAsync(CreateFullGridDto fullGridDto, CancellationToken cancellationToken = default)
+        public async Task<Result> BuildGridAsync(CreateCategoryDto fullGridDto, CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(fullGridDto, cancellationToken);
 
@@ -47,12 +47,10 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound
 
             _logger.LogInformation(Messages.Info_StartGeneratingGrid, category.Id);
 
-            List<RaceCreationDto> sortRaces = fullGridDto.Races
+            List<CreateRaceDto> sortRaces = fullGridDto.Races
                 .OrderBy(s => s.RaceType)
                 .ThenBy(s => s.SequenceNumber)
                 .ToList();
-
-            category.Races.Clear();
 
             foreach (var raceDto in sortRaces)
             {
@@ -60,8 +58,6 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems.SystemRound
 
                 race.RaceStatus = RaceStatus.Scheduled;
                 race.OriginalDateTime = race.RaceTime;
-
-                race.Lanes.Clear();
 
                 foreach (var laneDto in raceDto.Lanes)
                 {
