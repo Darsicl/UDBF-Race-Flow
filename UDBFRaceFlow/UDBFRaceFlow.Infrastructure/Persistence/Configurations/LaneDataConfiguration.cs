@@ -4,20 +4,17 @@ using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Infrastructure.Persistence.Configurations
 {
-    public class RaceEntryConfiguration : IEntityTypeConfiguration<RaceEntry>
+    public class LaneDataConfiguration : IEntityTypeConfiguration<LaneData>
     {
-        public void Configure(EntityTypeBuilder<RaceEntry> builder)
+        public void Configure(EntityTypeBuilder<LaneData> builder)
         {
             builder.HasKey(r => r.Id);
 
-            builder
-                .HasOne(r => r.Race)
-                .WithMany(r => r.RaceEntries)
-                .HasForeignKey(r => r.RaceId);
+            builder.HasIndex(r => r.RaceId);
 
             builder
                 .HasOne(r => r.Team)
-                .WithMany(r => r.RaceEntries)
+                .WithMany(r => r.Lanes)
                 .HasForeignKey(r => r.TeamId);
         }
     }

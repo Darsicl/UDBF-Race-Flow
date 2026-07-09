@@ -12,21 +12,32 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         public int RaceNumber { get; set; }
 
         [Required]
-        [MaxLength(7)]
-        public string BoatSize { get; set; } = string.Empty;
-
-        [Range(200, 2000)]
-        public int Distance { get; set; }
-
-        [Required]
-        public GenderCategory GenderCategory { get; set; }
-
-        [Required]
         public RaceStatus RaceStatus { get; set; }
 
         [Required]
         public RaceType RaceType { get; set; }
 
-        public List<RaceEntry> RaceEntries { get; set; } = new List<RaceEntry>();
+        [Required]
+        public DateTime RaceTime { get; set; }
+
+        [Required]
+        public DateTime OriginalDateTime { get; set; }
+
+        [Required]
+        public int SequenceNumber { get; set; }
+
+        public RaceCategory Category { get; set; } = null!;
+
+        [Required]
+        public Guid CategoryId { get; set; }
+
+        public List<LaneData> Lanes { get; set; } = new List<LaneData>();
+
+        public void AddLane(LaneData lane)
+        {
+            lane.Race = this;
+            lane.RaceId = this.Id;
+            Lanes.Add(lane);
+        }
     }
 }

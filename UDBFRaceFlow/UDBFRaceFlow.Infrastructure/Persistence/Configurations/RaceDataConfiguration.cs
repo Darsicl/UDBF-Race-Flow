@@ -13,9 +13,19 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Configurations
             builder.HasIndex(r => r.RaceNumber)
                 .IsUnique();
 
+            builder.HasIndex(r => r.CategoryId);
+
             builder
-                .HasMany(r => r.RaceEntries)
-                .WithOne(r => r.Race);
+                .HasMany(r => r.Lanes)
+                .WithOne(r => r.Race)
+                .HasForeignKey(r => r.RaceId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(r => r.Category)
+                .WithMany(r => r.Races)
+                .HasForeignKey(r => r.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

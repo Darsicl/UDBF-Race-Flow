@@ -1,4 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using UDBFRaceFlow.Application.Mapping;
+using UDBFRaceFlow.Application.Services.RaceSystems.SystemA;
 using UDBFRaceFlow.Infrastructure.Persistence;
 
 namespace UDBFRaceFlow.WebApi.Extensions
@@ -11,6 +16,16 @@ namespace UDBFRaceFlow.WebApi.Extensions
             {
                 options.UseNpgsql(configuration.GetConnectionString("RaceDbConnection"));
             });
+
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
+            services.AddValidatorsFromAssemblyContaining<SystemADtoValidator>();
+
+            TypeAdapterConfig.GlobalSettings.Scan(typeof(RaceMappingConfig).Assembly);
         }
     }
 }

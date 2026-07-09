@@ -61,16 +61,106 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max length of {0} property is {1}.
+        ///   Looks up a localized string similar to Races from this category {0} don`t have enough interval between rest races.
         /// </summary>
-        public static string Error_MaxLenght {
+        public static string Error_CheckIntervalFail {
             get {
-                return ResourceManager.GetString("Error MaxLenght", resourceCulture);
+                return ResourceManager.GetString("Error CheckIntervalFail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Property {0} is Required.
+        ///   Looks up a localized string similar to Race 1 must be earlier than Race 2.
+        /// </summary>
+        public static string Error_Chronological {
+            get {
+                return ResourceManager.GetString("Error Chronological", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Semifinal or Final should be single.
+        /// </summary>
+        public static string Error_CountOfRaces {
+            get {
+                return ResourceManager.GetString("Error CountOfRaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity {0} with Id {1} not found.
+        /// </summary>
+        public static string Error_EntityWithIdNotFound {
+            get {
+                return ResourceManager.GetString("Error EntityWithIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lane {0} is empty.
+        /// </summary>
+        public static string Error_LaneIsNull {
+            get {
+                return ResourceManager.GetString("Error LaneIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {PropertyName} cannot be greater than {ComparisonValue}..
+        /// </summary>
+        public static string Error_MaxLength {
+            get {
+                return ResourceManager.GetString("Error MaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method {0} not found.
+        /// </summary>
+        public static string Error_MethodNotFound {
+            get {
+                return ResourceManager.GetString("Error MethodNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {PropertyName} cannot be less than {ComparisonValue}..
+        /// </summary>
+        public static string Error_MinLength {
+            get {
+                return ResourceManager.GetString("Error MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Enough Heat Results for build Semifinal.
+        /// </summary>
+        public static string Error_NotEnoughHeatResults {
+            get {
+                return ResourceManager.GetString("Error NotEnoughHeatResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Enough Semifinal Results for build Final.
+        /// </summary>
+        public static string Error_NotEnoughSemisResults {
+            get {
+                return ResourceManager.GetString("Error NotEnoughSemisResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count of teams not enough to build system.
+        /// </summary>
+        public static string Error_NotEnoughTeam {
+            get {
+                return ResourceManager.GetString("Error NotEnoughTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property {PropertyName} is Required.
         /// </summary>
         public static string Error_PropertyIsRequired {
             get {
@@ -79,11 +169,83 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} should be between {1} and {2}.
+        ///   Looks up a localized string similar to Property {0} must be unique.
         /// </summary>
-        public static string Error_Range {
+        public static string Error_PropertyNotUnique {
             get {
-                return ResourceManager.GetString("Error Range", resourceCulture);
+                return ResourceManager.GetString("Error PropertyNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} property should be equal {1}.
+        /// </summary>
+        public static string Error_PropertyShouldBeEqual {
+            get {
+                return ResourceManager.GetString("Error PropertyShouldBeEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Race {0} is null.
+        /// </summary>
+        public static string Error_RaceIsNull {
+            get {
+                return ResourceManager.GetString("Error RaceIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The app don`t have a rule for this distance {0}.
+        /// </summary>
+        public static string Error_UnknownDistance {
+            get {
+                return ResourceManager.GetString("Error UnknownDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation for {0} failed with errors: {0}.
+        /// </summary>
+        public static string Error_ValidationFailed {
+            get {
+                return ResourceManager.GetString("Error ValidationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grid for category {0} successfully generated.
+        /// </summary>
+        public static string Info_FinishGenerateGrid {
+            get {
+                return ResourceManager.GetString("Info FinishGenerateGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} build. Lane 1: Team {1}. Lane 2: Team {2}. Lane 3: Team {3}. Lane 4: Team {4}. .
+        /// </summary>
+        public static string Info_RaceWasBuilded {
+            get {
+                return ResourceManager.GetString("Info RaceWasBuilded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start of building race {0} for category {1}.
+        /// </summary>
+        public static string Info_StartBuildRace {
+            get {
+                return ResourceManager.GetString("Info StartBuildRace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start generating grid for category {0}.
+        /// </summary>
+        public static string Info_StartGeneratingGrid {
+            get {
+                return ResourceManager.GetString("Info StartGeneratingGrid", resourceCulture);
             }
         }
     }

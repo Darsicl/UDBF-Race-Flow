@@ -8,8 +8,9 @@ namespace UDBFRaceFlow.Infrastructure.Persistence
     {
         public RaceDbContext(DbContextOptions<RaceDbContext> options) : base(options) { }
 
+        public DbSet<RaceCategory> Categories { get; set; }
         public DbSet<RaceData> Races { get; set; }
-        public DbSet<RaceEntry> RaceEntries { get; set; }
+        public DbSet<LaneData> Lanes { get; set; }
         public DbSet<TeamData> Teams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

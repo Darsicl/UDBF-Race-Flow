@@ -4,8 +4,13 @@ using UDBFRaceFlow.Domain.Entities.Team;
 namespace UDBFRaceFlow.Domain.Entities.Race
 {
 
-    public class RaceEntry
+    public class LaneData
     {
+        public LaneData()
+        {
+            Id = Guid.CreateVersion7();
+        }
+
         [Key]
         public Guid Id { get; set; }
 
