@@ -27,12 +27,12 @@ namespace UDBFRaceFlow.Application.Services.RaceSystems
 
         private async Task<bool> IsUniqueRaceNumberAsync(int raceNumber, CancellationToken cancellationToken)
         {
-            return await _raceRepository.IsRaceNumberUniqueAsync(raceNumber, cancellationToken);
+            return !await _raceRepository.IsRaceNumberUniqueAsync(raceNumber, cancellationToken);
         }
 
         private async Task<bool> IsUniqueRaceTimeAsync(DateTime raceTime, CancellationToken cancellationToken)
         {
-            return await _raceRepository.IsRaceDateUniqueAsync(raceTime, cancellationToken);
+            return !await _raceRepository.IsRaceDateUniqueAsync(raceTime, cancellationToken);
         }
     }
 }

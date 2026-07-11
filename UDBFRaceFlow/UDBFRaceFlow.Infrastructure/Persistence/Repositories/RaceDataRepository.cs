@@ -36,12 +36,22 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
 
         public async Task<bool> IsRaceDateUniqueAsync(DateTime raceTime, CancellationToken cancellationToken)
         {
-            return !await _context.Races.AnyAsync(r => r.RaceTime == raceTime, cancellationToken);
+            return await _context.Races.AnyAsync(r => r.RaceTime == raceTime, cancellationToken);
+        }
+
+        public async Task<bool> IsRaceDateUniqueAsync(DateTime raceTime, Guid raceId, CancellationToken cancellationToken)
+        {
+            return await _context.Races.AnyAsync(r => r.OriginalDateTime == raceTime && r.Id != raceId, cancellationToken);
+        }
+
+        public async Task<bool> IsRaceNumberUniqueAsync(int raceNumber, Guid raceId, CancellationToken cancellationToken)
+        {
+            return await _context.Races.AnyAsync(r => r.RaceNumber == raceNumber && r.Id != raceId, cancellationToken);
         }
 
         public async Task<bool> IsRaceNumberUniqueAsync(int raceNumber, CancellationToken cancellationToken)
         {
-            return !await _context.Races.AnyAsync(r => r.RaceNumber == raceNumber, cancellationToken);
+            return await _context.Races.AnyAsync(r => r.RaceNumber == raceNumber, cancellationToken);
         }
     }
 }

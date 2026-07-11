@@ -11,6 +11,8 @@ namespace UDBFRaceFlow.Application.Mapping
             config.NewConfig<UpdateCategoryDetailsDto, RaceCategory>();
 
             config.NewConfig<LaneResultDto, LaneData>();
+
+            config.NewConfig<UpdateRaceDetailsDto, RaceData>();
         }
     }
 }

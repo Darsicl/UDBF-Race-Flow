@@ -5,7 +5,7 @@ namespace UDBFRaceFlow.Domain.Entities.Race
 {
     public static class CheckIntervalTimeExtension
     {
-        public static Dictionary<int, TimeSpan> IntervalRules = new()
+        private static Dictionary<int, TimeSpan> IntervalRules = new()
         {
             {200, TimeSpan.FromMinutes(10) },
             {500, TimeSpan.FromMinutes(15) },

@@ -89,8 +89,6 @@ namespace UDBFRaceFlow.Application.Services.Update
                 {
                     sortLane[i].FinishPlace = i + 1;
                 }
-
-                race.RaceStatus = laneResultDto.RaceStatus;
             }
 
             await _raceDataRepository.SaveChangesAsync(cancellationToken);
@@ -115,14 +113,68 @@ namespace UDBFRaceFlow.Application.Services.Update
             return Result.Ok();
         }
 
-        public Task<Result> UpdateRaceDetails(UpdateRaceDetailsDto raceDetailsDto, CancellationToken cancellationToken)
+        public async Task<Result> UpdateRaceDetails(UpdateRaceDetailsDto raceDetailsDto, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var race = await _raceDataRepository.GetByIdAsync(raceDetailsDto.RaceId, cancellationToken);
+
+            if (race is null)
+            {
+                string errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(RaceData), raceDetailsDto.RaceId);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
+            }
+
+            raceDetailsDto.Adapt(race);
+
+            var checkDate = await _raceDataRepository.IsRaceDateUniqueAsync(race.OriginalDateTime, race.Id, cancellationToken);
+
+            if (checkDate)
+            {
+                string errorMsg = string.Format(Messages.Error_CheckIntervalFail, race.Id);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
+            }
+
+            var checkRaceNumber = await _raceDataRepository.IsRaceNumberUniqueAsync(race.RaceNumber, race.Id, cancellationToken);
+
+            if (checkRaceNumber)
+            {
+                string errorMsg = string.Format(Messages.Error_PropertyNotUnique, race.RaceNumber);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
+            }
+
+            var allRaces = await _raceDataRepository.GetAllRacesAsync(cancellationToken);
+            var check = CheckIntervalTimeExtension.CheckInterval(allRaces);
+
+            if (!check)
+            {
+                string errorMsg = string.Format(Messages.Error_CheckIntervalFail, race.Id);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
+            }
+
+            await _raceDataRepository.SaveChangesAsync(cancellationToken);
+
+            return Result.Ok();
         }
 
-        public Task<Result> UpdateRaceStatus(UpdateStatusDto statusDto, CancellationToken cancellationToken)
+        public async Task<Result> UpdateRaceStatus(UpdateStatusDto statusDto, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var race = await _raceDataRepository.GetByIdAsync(statusDto.RaceId, cancellationToken);
+
+            if (race is null)
+            {
+                string errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(RaceData), statusDto.RaceId);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
+            }
+
+            race.RaceStatus = statusDto.RaceStatus;
+
+            await _raceDataRepository.SaveChangesAsync(cancellationToken);
+
+            return Result.Ok();
         }
     }
 }
