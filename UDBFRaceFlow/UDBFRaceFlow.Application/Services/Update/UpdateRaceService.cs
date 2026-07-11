@@ -52,7 +52,7 @@ namespace UDBFRaceFlow.Application.Services.Update
 
         public async Task<Result> UpdateLaneResult(UpdateLaneResultDto laneResultDto, CancellationToken cancellationToken = default)
         {
-            var race = await _raceDataRepository.GetRaceWithLanes(laneResultDto.RaceId, cancellationToken);
+            var race = await _raceDataRepository.GetRaceWithLanesAsync(laneResultDto.RaceId, cancellationToken);
 
             if (race is null)
             {
@@ -93,14 +93,26 @@ namespace UDBFRaceFlow.Application.Services.Update
                 race.RaceStatus = laneResultDto.RaceStatus;
             }
 
-            await _raceCategoryRepository.SaveChangesAsync(cancellationToken);
+            await _raceDataRepository.SaveChangesAsync(cancellationToken);
 
             return Result.Ok();
         }
 
-        public Task<Result> UpdateRaceDelay(RaceDelayDto raceDelayDto, CancellationToken cancellationToken)
+        public async Task<Result> UpdateRaceDelay(RaceDelayDto raceDelayDto, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var date = raceDelayDto.DelayDay.ToDateTime(TimeOnly.MinValue);
+            var races = await _raceDataRepository.GetRacesByDayForDelayAsync(date, cancellationToken);
+
+            if (!races.Any())
+            {
+                return Result.Ok();
+            }
+
+            races.ForEach(r => r.RaceTime = r.OriginalDateTime + raceDelayDto.Delay);
+
+            await _raceDataRepository.SaveChangesAsync(cancellationToken);
+
+            return Result.Ok();
         }
 
         public Task<Result> UpdateRaceDetails(UpdateRaceDetailsDto raceDetailsDto, CancellationToken cancellationToken)
