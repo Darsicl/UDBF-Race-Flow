@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
 using UDBFRaceFlow.Application.Mapping;
@@ -120,7 +120,7 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
         public async Task BuildGridAsync_WhenDataIsValidAndGeneratorFound_CallsCreateRestRoundAndSaves()
         {
             // Arrange
-            TypeAdapterConfig.GlobalSettings.Scan(typeof(RaceMappingConfig).Assembly);
+            TypeAdapterConfig.GlobalSettings.Scan(typeof(CreateRaceMappingConfig).Assembly);
 
             var futureRaceTime = DateTime.UtcNow.AddDays(1);
 

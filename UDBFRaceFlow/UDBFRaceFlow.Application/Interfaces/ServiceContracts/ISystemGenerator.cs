@@ -1,5 +1,5 @@
 ﻿using FluentResults;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Create;
 using UDBFRaceFlow.Domain.Enums;
 
 namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts

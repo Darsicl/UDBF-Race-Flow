@@ -1,10 +1,10 @@
 ﻿using Mapster;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Create;
 using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Application.Mapping
 {
-    public class RaceMappingConfig : IRegister
+    public class CreateRaceMappingConfig : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {

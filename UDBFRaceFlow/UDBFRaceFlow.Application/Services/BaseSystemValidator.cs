@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Create;
 using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services

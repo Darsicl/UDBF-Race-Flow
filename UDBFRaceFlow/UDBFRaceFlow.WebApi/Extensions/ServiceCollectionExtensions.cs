@@ -25,7 +25,7 @@ namespace UDBFRaceFlow.WebApi.Extensions
 
             services.AddValidatorsFromAssemblyContaining<SystemADtoValidator>();
 
-            TypeAdapterConfig.GlobalSettings.Scan(typeof(RaceMappingConfig).Assembly);
+            TypeAdapterConfig.GlobalSettings.Scan(typeof(CreateRaceMappingConfig).Assembly);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using FluentResults;
 using Mapster;
 using Microsoft.Extensions.Logging;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
 using UDBFRaceFlow.Domain.Entities.Race;

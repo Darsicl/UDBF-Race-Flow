@@ -1,0 +1,14 @@
+﻿using Mapster;
+using UDBFRaceFlow.Application.Dto.Update;
+using UDBFRaceFlow.Domain.Entities.Race;
+
+namespace UDBFRaceFlow.Application.Mapping
+{
+    public class UpdateRaceMappingConfig : IRegister
+    {
+        public void Register(TypeAdapterConfig config)
+        {
+            config.NewConfig<UpdateCategoryDetailsDto, RaceCategory>();
+        }
+    }
+}

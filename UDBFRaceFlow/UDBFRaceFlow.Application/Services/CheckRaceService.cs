@@ -8,12 +8,12 @@ using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services
 {
-    public class RaceService : IRaceService
+    public class CheckRaceService : ICheckRaceService
     {
         private readonly IRaceCategoryRepository _raceRepo;
         private readonly IEnumerable<ISystemGenerator> _generators;
-        private readonly ILogger<RaceService> _logger;
-        public RaceService(IRaceCategoryRepository raceRepo, IEnumerable<ISystemGenerator> generators, ILogger<RaceService> logger)
+        private readonly ILogger<CheckRaceService> _logger;
+        public CheckRaceService(IRaceCategoryRepository raceRepo, IEnumerable<ISystemGenerator> generators, ILogger<CheckRaceService> logger)
         {
             _raceRepo = raceRepo;
             _generators = generators;

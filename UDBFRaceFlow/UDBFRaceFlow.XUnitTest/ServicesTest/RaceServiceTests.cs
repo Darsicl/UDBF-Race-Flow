@@ -15,15 +15,15 @@ namespace UDBFRaceFlow.XUnitTest.Services
     {
         private readonly IRaceCategoryRepository _raceRepoMock;
         private readonly ISystemGenerator _generatorMock;
-        private readonly ILogger<RaceService> _loggerMock;
+        private readonly ILogger<CheckRaceService> _loggerMock;
         private readonly Fixture _fixture;
-        private readonly RaceService _sut; // SUT = System Under Test (Тестируемый объект)
+        private readonly CheckRaceService _sut; // SUT = System Under Test (Тестируемый объект)
 
         public RaceServiceTests()
         {
             _raceRepoMock = Substitute.For<IRaceCategoryRepository>();
             _generatorMock = Substitute.For<ISystemGenerator>();
-            _loggerMock = Substitute.For<ILogger<RaceService>>();
+            _loggerMock = Substitute.For<ILogger<CheckRaceService>>();
 
             _fixture = new Fixture();
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
@@ -31,7 +31,7 @@ namespace UDBFRaceFlow.XUnitTest.Services
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var generators = new List<ISystemGenerator> { _generatorMock };
-            _sut = new RaceService(_raceRepoMock, generators, _loggerMock);
+            _sut = new CheckRaceService(_raceRepoMock, generators, _loggerMock);
         }
 
         [Fact]
