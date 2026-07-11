@@ -9,6 +9,8 @@ namespace UDBFRaceFlow.Application.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<UpdateCategoryDetailsDto, RaceCategory>();
+
+            config.NewConfig<LaneResultDto, LaneData>();
         }
     }
 }

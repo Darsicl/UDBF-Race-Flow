@@ -5,6 +5,7 @@ using UDBFRaceFlow.Application.Dto.Update;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
 using UDBFRaceFlow.Domain.Entities.Race;
+using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services.Update
@@ -12,12 +13,14 @@ namespace UDBFRaceFlow.Application.Services.Update
     public class UpdateRaceService : IUpdateRaceService
     {
         private readonly IRaceCategoryRepository _raceCategoryRepository;
+        private readonly IRaceDataRepository _raceDataRepository;
         private readonly ILogger<UpdateRaceService> _logger;
 
-        public UpdateRaceService(IRaceCategoryRepository raceCategoryRepository, ILogger<UpdateRaceService> logger)
+        public UpdateRaceService(IRaceCategoryRepository raceCategoryRepository, ILogger<UpdateRaceService> logger, IRaceDataRepository raceDataRepository)
         {
             _raceCategoryRepository = raceCategoryRepository;
             _logger = logger;
+            _raceDataRepository = raceDataRepository;
         }
 
         public async Task<Result> UpdateCategoryDetails(UpdateCategoryDetailsDto categoryDetailsDto, CancellationToken cancellationToken = default)
@@ -47,9 +50,52 @@ namespace UDBFRaceFlow.Application.Services.Update
             return Result.Ok();
         }
 
-        public Task<Result> UpdateLaneResult(UpdateLaneResultDto laneResultDto, CancellationToken cancellationToken)
+        public async Task<Result> UpdateLaneResult(UpdateLaneResultDto laneResultDto, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var race = await _raceDataRepository.GetRaceWithLanes(laneResultDto.RaceId, cancellationToken);
+
+            if (race is null)
+            {
+                string errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(RaceData), laneResultDto.RaceId);
+                _logger.LogError(errorMsg);
+                return Result.Fail(new Error(errorMsg));
+            }
+
+            var laneResults = laneResultDto.LaneResults.ToDictionary(x => x.LaneId);
+
+            foreach (var lane in race.Lanes)
+            {
+                if (laneResults.TryGetValue(lane.Id, out var dto))
+                {
+                    dto.Adapt(lane);
+                }
+            }
+
+            race.RaceStatus = laneResultDto.RaceStatus;
+
+            if (laneResultDto.RaceStatus == RaceStatus.Finished)
+            {
+                foreach (var lane in race.Lanes)
+                {
+                    lane.FinishPlace = null;
+                }
+
+                var sortLane = race.Lanes
+                    .Where(s => s.FinishTime > TimeSpan.Zero && s.FinishTime.HasValue && s.FinishStatus == FinishStatus.Confirmed)
+                    .OrderBy(s => s.FinishTime)
+                    .ToList();
+
+                for (int i = 0; i < sortLane.Count; i++)
+                {
+                    sortLane[i].FinishPlace = i + 1;
+                }
+
+                race.RaceStatus = laneResultDto.RaceStatus;
+            }
+
+            await _raceCategoryRepository.SaveChangesAsync(cancellationToken);
+
+            return Result.Ok();
         }
 
         public Task<Result> UpdateRaceDelay(RaceDelayDto raceDelayDto, CancellationToken cancellationToken)

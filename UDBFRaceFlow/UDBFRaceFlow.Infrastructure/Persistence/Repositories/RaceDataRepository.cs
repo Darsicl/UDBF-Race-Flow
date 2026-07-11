@@ -19,6 +19,13 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<RaceData?> GetRaceWithLanes(Guid raceId, CancellationToken cancellationToken = default)
+        {
+            return await _context.Races
+                .Include(r => r.Lanes)
+                .FirstOrDefaultAsync(r => r.Id == raceId, cancellationToken);
+        }
+
         public async Task<bool> IsRaceDateUnique(DateTime raceTime, CancellationToken cancellationToken)
         {
             return !await _context.Races.AnyAsync(r => r.RaceTime == raceTime, cancellationToken);

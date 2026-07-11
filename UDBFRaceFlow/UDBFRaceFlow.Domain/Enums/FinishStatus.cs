@@ -2,7 +2,7 @@
 {
     public enum FinishStatus
     {
-        Confirmet,
+        Confirmed,
         DNS,
         DQ,
         DNF
