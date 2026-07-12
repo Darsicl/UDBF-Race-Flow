@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using UDBFRaceFlow.Application.Dto.Create;
+using UDBFRaceFlow.Application.Dto.Request.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Domain.Resources;
 

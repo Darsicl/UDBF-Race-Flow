@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using UDBFRaceFlow.Application.Dto.Create;
+using UDBFRaceFlow.Application.Dto.Request.Create;
 using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 

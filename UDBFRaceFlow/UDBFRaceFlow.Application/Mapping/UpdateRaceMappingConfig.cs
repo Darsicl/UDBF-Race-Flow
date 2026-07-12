@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using UDBFRaceFlow.Application.Dto.Update;
+using UDBFRaceFlow.Application.Dto.Request.Update;
 using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Application.Mapping
@@ -10,7 +10,7 @@ namespace UDBFRaceFlow.Application.Mapping
         {
             config.NewConfig<UpdateCategoryDetailsDto, RaceCategory>();
 
-            config.NewConfig<LaneResultDto, LaneData>();
+            config.NewConfig<RaceResultDto, LaneData>();
 
             config.NewConfig<UpdateRaceDetailsDto, RaceData>();
         }

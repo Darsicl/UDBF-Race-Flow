@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
-using UDBFRaceFlow.Application.Dto.Create;
+using UDBFRaceFlow.Application.Dto.Request.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Services.RaceSystems.SystemA;
 using UDBFRaceFlow.Domain.Entities.Race;

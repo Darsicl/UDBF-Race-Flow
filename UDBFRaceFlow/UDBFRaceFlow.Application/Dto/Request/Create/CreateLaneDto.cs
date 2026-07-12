@@ -1,4 +1,4 @@
-﻿namespace UDBFRaceFlow.Application.Dto.Create
+﻿namespace UDBFRaceFlow.Application.Dto.Request.Create
 {
     public record CreateLaneDto(Guid TeamId, int StartLane);
 }

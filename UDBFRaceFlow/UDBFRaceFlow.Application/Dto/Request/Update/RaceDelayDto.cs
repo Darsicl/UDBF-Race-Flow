@@ -1,4 +1,4 @@
-﻿namespace UDBFRaceFlow.Application.Dto.Update
+﻿namespace UDBFRaceFlow.Application.Dto.Request.Update
 {
     public record RaceDelayDto(TimeSpan Delay, DateOnly DelayDay);
 }

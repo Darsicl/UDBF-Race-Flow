@@ -1,5 +1,5 @@
 ﻿using NSubstitute;
-using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
+using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Create;
 using UDBFRaceFlow.Application.Services;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
