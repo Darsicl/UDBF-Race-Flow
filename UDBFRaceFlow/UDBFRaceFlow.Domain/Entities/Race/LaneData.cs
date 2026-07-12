@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using UDBFRaceFlow.Domain.Entities.Team;
+using UDBFRaceFlow.Domain.Enums;
 
 namespace UDBFRaceFlow.Domain.Entities.Race
 {
@@ -18,9 +19,11 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         public int StartLane { get; set; }
 
         [Range(1, 7)]
-        public int FinishPlace { get; set; }
+        public int? FinishPlace { get; set; } = null;
 
-        public TimeSpan FinishTime { get; set; }
+        public TimeSpan? FinishTime { get; set; } = null;
+
+        public FinishStatus FinishStatus { get; set; }
 
         [Required]
         public Guid RaceId { get; set; }

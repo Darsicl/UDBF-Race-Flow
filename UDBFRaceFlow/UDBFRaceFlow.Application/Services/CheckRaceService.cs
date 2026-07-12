@@ -2,18 +2,19 @@
 using Microsoft.Extensions.Logging;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts;
+using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Create;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services
 {
-    public class RaceService : IRaceService
+    public class CheckRaceService : ICheckRaceService
     {
         private readonly IRaceCategoryRepository _raceRepo;
         private readonly IEnumerable<ISystemGenerator> _generators;
-        private readonly ILogger<RaceService> _logger;
-        public RaceService(IRaceCategoryRepository raceRepo, IEnumerable<ISystemGenerator> generators, ILogger<RaceService> logger)
+        private readonly ILogger<CheckRaceService> _logger;
+        public CheckRaceService(IRaceCategoryRepository raceRepo, IEnumerable<ISystemGenerator> generators, ILogger<CheckRaceService> logger)
         {
             _raceRepo = raceRepo;
             _generators = generators;

@@ -4,21 +4,21 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.ServicesTest.RaceSystemsTest.RoundTypesTest
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest.RoundTypesTest
 {
-    public class RoundForFourTeamsTests
+    public class RoundForThreeTeamsTests
     {
-        private readonly RoundForFourTeams _sut;
+        private readonly RoundForThreeTeams _sut;
 
-        public RoundForFourTeamsTests()
+        public RoundForThreeTeamsTests()
         {
-            _sut = new RoundForFourTeams();
+            _sut = new RoundForThreeTeams();
         }
 
         [Theory]
-        [InlineData(4, true)]
-        [InlineData(3, false)]
-        [InlineData(5, false)]
+        [InlineData(3, true)]
+        [InlineData(2, false)]
+        [InlineData(4, false)]
         [InlineData(0, false)]
         public void ApplyParametrs_ShouldReturnExpectedResult_DependingOnCountOfTeams(int countOfTeams, bool expected)
         {
@@ -38,13 +38,11 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.RaceSystemsTest.RoundTypesTest
             var teamOneId = Guid.NewGuid();
             var teamTwoId = Guid.NewGuid();
             var teamThreeId = Guid.NewGuid();
-            var teamFourId = Guid.NewGuid();
 
             var heatRace = new RaceData { Id = Guid.NewGuid(), RaceType = RaceType.Heat };
             heatRace.Lanes.Add(new LaneData { StartLane = 1, TeamId = teamOneId, RaceId = heatRace.Id });
             heatRace.Lanes.Add(new LaneData { StartLane = 2, TeamId = teamTwoId, RaceId = heatRace.Id });
             heatRace.Lanes.Add(new LaneData { StartLane = 3, TeamId = teamThreeId, RaceId = heatRace.Id });
-            heatRace.Lanes.Add(new LaneData { StartLane = 4, TeamId = teamFourId, RaceId = heatRace.Id });
 
             var semiRace = new RaceData { Id = Guid.NewGuid(), RaceType = RaceType.Semifinal };
             var finalRace = new RaceData { Id = Guid.NewGuid(), RaceType = RaceType.Final };
@@ -59,20 +57,18 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.RaceSystemsTest.RoundTypesTest
             result.Should().HaveCount(3);
 
             var actualSemi = result.Single(r => r.RaceType == RaceType.Semifinal);
-            actualSemi.Lanes.Should().HaveCount(4);
+            actualSemi.Lanes.Should().HaveCount(3);
 
-            actualSemi.Lanes.Single(l => l.StartLane == 1).TeamId.Should().Be(teamThreeId);
-            actualSemi.Lanes.Single(l => l.StartLane == 2).TeamId.Should().Be(teamFourId);
+            actualSemi.Lanes.Single(l => l.StartLane == 1).TeamId.Should().Be(teamTwoId);
+            actualSemi.Lanes.Single(l => l.StartLane == 2).TeamId.Should().Be(teamThreeId);
             actualSemi.Lanes.Single(l => l.StartLane == 3).TeamId.Should().Be(teamOneId);
-            actualSemi.Lanes.Single(l => l.StartLane == 4).TeamId.Should().Be(teamTwoId);
 
             var actualFinal = result.Single(r => r.RaceType == RaceType.Final);
-            actualFinal.Lanes.Should().HaveCount(4);
+            actualFinal.Lanes.Should().HaveCount(3);
 
-            actualFinal.Lanes.Single(l => l.StartLane == 1).TeamId.Should().Be(teamFourId);
+            actualFinal.Lanes.Single(l => l.StartLane == 1).TeamId.Should().Be(teamThreeId);
             actualFinal.Lanes.Single(l => l.StartLane == 2).TeamId.Should().Be(teamOneId);
             actualFinal.Lanes.Single(l => l.StartLane == 3).TeamId.Should().Be(teamTwoId);
-            actualFinal.Lanes.Single(l => l.StartLane == 4).TeamId.Should().Be(teamThreeId);
         }
 
         [Fact]
@@ -113,7 +109,6 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.RaceSystemsTest.RoundTypesTest
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        [InlineData(4)]
         public void CreateRestRound_WhenAnyTeamIsMissingInHeatLanes_ShouldThrowArgumentNullException(int missingLaneNumber)
         {
             // Arrange
@@ -133,11 +128,6 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.RaceSystemsTest.RoundTypesTest
             if (missingLaneNumber != 3)
             {
                 heatRace.Lanes.Add(new LaneData { StartLane = 3, TeamId = Guid.NewGuid(), RaceId = heatRace.Id });
-            }
-
-            if (missingLaneNumber != 4)
-            {
-                heatRace.Lanes.Add(new LaneData { StartLane = 4, TeamId = Guid.NewGuid(), RaceId = heatRace.Id });
             }
 
             var semiRace = new RaceData { Id = Guid.NewGuid(), RaceType = RaceType.Semifinal };

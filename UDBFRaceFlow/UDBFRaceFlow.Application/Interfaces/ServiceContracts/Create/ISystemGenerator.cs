@@ -1,8 +1,8 @@
 ﻿using FluentResults;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Request.Create;
 using UDBFRaceFlow.Domain.Enums;
 
-namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
+namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts.Create
 {
     public interface ISystemGenerator
     {

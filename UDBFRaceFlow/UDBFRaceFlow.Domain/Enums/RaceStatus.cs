@@ -3,8 +3,9 @@
     public enum RaceStatus
     {
         Scheduled = 0,
-        InProgress = 1,
-        Finished = 2,
-        Canceled = 3
+        GetReady = 1,
+        InProgress = 2,
+        Finished = 3,
+        Canceled = 4
     }
 }

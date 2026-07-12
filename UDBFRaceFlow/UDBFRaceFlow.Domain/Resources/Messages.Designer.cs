@@ -61,7 +61,7 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Races from this category {0} don`t have enough interval between rest races.
+        ///   Looks up a localized string similar to Races {0} don`t have enough interval between rest races.
         /// </summary>
         public static string Error_CheckIntervalFail {
             get {

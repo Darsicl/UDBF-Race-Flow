@@ -1,6 +1,6 @@
 ﻿using UDBFRaceFlow.Domain.Entities.Race;
 
-namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts
+namespace UDBFRaceFlow.Application.Interfaces.ServiceContracts.Create
 {
     public interface IRoundGenerator
     {

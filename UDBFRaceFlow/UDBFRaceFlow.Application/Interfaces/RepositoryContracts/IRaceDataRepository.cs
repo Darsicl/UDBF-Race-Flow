@@ -5,8 +5,12 @@ namespace UDBFRaceFlow.Application.Interfaces.RepositoryContracts
     public interface IRaceDataRepository : IRaceRepository<RaceData>
     {
         Task<List<RaceData>> GetAllRacesAsync(CancellationToken cancellationToken);
-        Task<bool> IsRaceNumberUnique(int raceNumber, CancellationToken cancellationToken);
-        Task<bool> IsRaceDateUnique(DateTime raceTime, CancellationToken cancellationToken);
+        Task<RaceData?> GetRaceWithLanesAsync(Guid raceId, CancellationToken cancellationToken);
+        Task<bool> IsRaceNumberUniqueAsync(int raceNumber, Guid raceId, CancellationToken cancellationToken);
+        Task<bool> IsRaceNumberUniqueAsync(int raceNumber, CancellationToken cancellationToken);
+        Task<bool> IsRaceDateUniqueAsync(DateTime raceTime, Guid raceId, CancellationToken cancellationToken);
+        Task<bool> IsRaceDateUniqueAsync(DateTime raceTime, CancellationToken cancellationToken);
+        Task<List<RaceData>> GetRacesByDayForDelayAsync(DateTime date, CancellationToken cancellationToken);
 
     }
 }

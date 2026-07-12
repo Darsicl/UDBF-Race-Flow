@@ -1,60 +1,69 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Request.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Services.RaceSystems.SystemA;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest
 {
-    public class SystemASecondTypeGeneratorTests
+    public class SystemAFirstTypeGeneratorTests
     {
         private readonly IRaceCategoryRepository _raceCategoryRepoMock;
-        private readonly IRaceDataRepository _raceRepoMock;
-        private readonly ILogger<SystemASecondTypeGenerator> _loggerMock;
+        private readonly IRaceDataRepository _raceDataRepoMock;
+        private readonly ILogger<SystemAFirstTypeGenerator> _loggerMock;
         private readonly SystemADtoValidator _validatorMock;
-        private readonly SystemASecondTypeGenerator _sut;
-
-        public SystemASecondTypeGeneratorTests()
+        private readonly SystemAFirstTypeGenerator _sut;
+        public SystemAFirstTypeGeneratorTests()
         {
             _raceCategoryRepoMock = Substitute.For<IRaceCategoryRepository>();
-            _raceRepoMock = Substitute.For<IRaceDataRepository>();
-            _loggerMock = Substitute.For<ILogger<SystemASecondTypeGenerator>>();
+            _raceDataRepoMock = Substitute.For<IRaceDataRepository>();
+            _loggerMock = Substitute.For<ILogger<SystemAFirstTypeGenerator>>();
 
-            var raceCreationValidatorMock = Substitute.For<FluentValidation.IValidator<CreateRaceDto>>();
-            _validatorMock = new SystemADtoValidator(raceCreationValidatorMock);
+            var raceCreationValidationMock = Substitute.For<FluentValidation.IValidator<CreateRaceDto>>();
+            _validatorMock = new SystemADtoValidator(raceCreationValidationMock);
 
-            _sut = new SystemASecondTypeGenerator(
+            _sut = new SystemAFirstTypeGenerator(
                 _raceCategoryRepoMock,
                 _loggerMock,
-                _raceRepoMock,
-                _validatorMock);
+                _raceDataRepoMock,
+                _validatorMock
+                );
         }
 
         private RaceCategory CreateBaseCategory(Guid id)
         {
             return new RaceCategory
             {
-                Id = id,
-                Distance = 1000,
+                Id = Guid.NewGuid(),
                 RaceSystem = RaceSystem.SystemA,
-                Races = new List<RaceData>()
+                Distance = 500,
+                BoatSize = BoatSize.D12,
+                GenderCategory = GenderCategory.Mix,
+                RaceAge = RaceAge.U24,
+                Races = new List<RaceData>(),
             };
         }
 
         [Fact]
         public void ApplyParametrs_WhenValidArgs_ReturnsTrue()
         {
-            var result = _sut.ApplyParametrs(2, RaceSystem.SystemA);
+            // Arrange & Act
+            var result = _sut.ApplyParametrs(1, RaceSystem.SystemA);
+
+            // Assert
             Assert.True(result);
         }
 
         [Fact]
         public void ApplyParametrs_WhenInvalidArgs_ReturnsFalse()
         {
-            var result = _sut.ApplyParametrs(1, RaceSystem.Long);
+            // Arrange & Act
+            var result = _sut.ApplyParametrs(2, RaceSystem.Long);
+
+            // Assert
             Assert.False(result);
         }
 
@@ -66,7 +75,7 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
                 RaceSystem.SystemA,
                 1,
                 RaceAge.Premier,
-                200,
+                1000,
                 BoatSize.D12,
                 GenderCategory.Mix,
                 new());
@@ -272,8 +281,8 @@ namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
             Assert.True(result.IsSuccess);
             Assert.Equal(4, finalRace.Lanes.Count);
 
-            Assert.Equal(semiTeam1, finalRace.Lanes.First(l => l.StartLane == 1).TeamId);
-            Assert.Equal(heat1.Lanes[0].TeamId, finalRace.Lanes.First(l => l.StartLane == 2).TeamId);
+            Assert.Equal(semiTeam1, finalRace.Lanes.First(l => l.StartLane == 4).TeamId);
+            Assert.Equal(heat1.Lanes[0].TeamId, finalRace.Lanes.First(l => l.StartLane == 3).TeamId);
 
             await _raceCategoryRepoMock.Received(1).SaveChangesAsync(token);
         }

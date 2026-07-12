@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
-using UDBFRaceFlow.Application.Dto;
+using UDBFRaceFlow.Application.Dto.Request.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Services.RaceSystems.SystemLong;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest
 {
     public class SystemLongGeneratorTests
     {

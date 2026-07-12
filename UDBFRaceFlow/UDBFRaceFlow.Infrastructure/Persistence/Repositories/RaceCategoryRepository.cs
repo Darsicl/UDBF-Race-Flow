@@ -18,5 +18,10 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
                 .ThenInclude(c => c.Lanes)
                 .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
+
+        public async Task<bool> IsCategoryUnique(RaceCategory category, CancellationToken cancellationToken)
+        {
+            return await _context.Categories.AnyAsync(r => r.CategoryName == category.CategoryName && r.Id != category.Id, cancellationToken);
+        }
     }
 }
