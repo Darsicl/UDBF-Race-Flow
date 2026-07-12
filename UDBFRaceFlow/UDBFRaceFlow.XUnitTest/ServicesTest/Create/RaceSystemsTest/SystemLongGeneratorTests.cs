@@ -7,7 +7,7 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.Services.RaceSystems
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest
 {
     public class SystemLongGeneratorTests
     {

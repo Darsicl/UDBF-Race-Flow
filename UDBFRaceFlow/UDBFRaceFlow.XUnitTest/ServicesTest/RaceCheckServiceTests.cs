@@ -9,17 +9,17 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.Services
+namespace UDBFRaceFlow.XUnitTest.ServicesTest
 {
-    public class RaceServiceTests
+    public class RaceCheckServiceTests
     {
         private readonly IRaceCategoryRepository _raceRepoMock;
         private readonly ISystemGenerator _generatorMock;
         private readonly ILogger<CheckRaceService> _loggerMock;
         private readonly Fixture _fixture;
-        private readonly CheckRaceService _sut; // SUT = System Under Test (Тестируемый объект)
+        private readonly CheckRaceService _sut;
 
-        public RaceServiceTests()
+        public RaceCheckServiceTests()
         {
             _raceRepoMock = Substitute.For<IRaceCategoryRepository>();
             _generatorMock = Substitute.For<ISystemGenerator>();

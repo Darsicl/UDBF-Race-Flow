@@ -2,5 +2,8 @@
 
 namespace UDBFRaceFlow.Application.Dto.Request.Update
 {
-    public record UpdateCategoryDetailsDto(Guid CategoryId, RaceAge RaceAge, int Distance, BoatSize BoatSize, GenderCategory Gender);
+    public record UpdateCategoryDetailsDto(Guid CategoryId, RaceAge RaceAge, int Distance, BoatSize BoatSize, GenderCategory GenderCategory);
 }
+
+
+
