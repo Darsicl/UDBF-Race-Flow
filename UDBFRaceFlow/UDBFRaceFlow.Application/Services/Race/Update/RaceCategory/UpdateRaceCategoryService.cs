@@ -6,10 +6,9 @@ using UDBFRaceFlow.Application.Dto.Request.Race.Update;
 using UDBFRaceFlow.Application.Extensions.ValidatorExtensions;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Update;
-using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.Race.Update
+namespace UDBFRaceFlow.Application.Services.Race.Update.RaceCategory
 {
     public class UpdateRaceCategoryService : IUpdateRaceCategoryService
     {

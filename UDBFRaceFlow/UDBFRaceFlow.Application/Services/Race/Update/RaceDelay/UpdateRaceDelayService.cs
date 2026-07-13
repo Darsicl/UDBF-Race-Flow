@@ -6,7 +6,7 @@ using UDBFRaceFlow.Application.Extensions.ValidatorExtensions;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Update;
 
-namespace UDBFRaceFlow.Application.Services.Race.Update
+namespace UDBFRaceFlow.Application.Services.Race.Update.RaceDelay
 {
     public class UpdateRaceDelayService : IUpdateRaceDelayService
     {

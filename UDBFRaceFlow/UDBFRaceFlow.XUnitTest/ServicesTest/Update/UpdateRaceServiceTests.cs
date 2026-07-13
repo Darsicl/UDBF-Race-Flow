@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using UDBFRaceFlow.Application.Dto.Request.Update;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
-using UDBFRaceFlow.Application.Services.Race.Update;
+using UDBFRaceFlow.Application.Services.Race.Update.RaceDelay;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;

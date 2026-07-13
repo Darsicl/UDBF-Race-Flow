@@ -10,7 +10,7 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.Race.Update
+namespace UDBFRaceFlow.Application.Services.Race.Update.RaceResult
 {
     public class RaceResultService : IRaceResultService
     {
