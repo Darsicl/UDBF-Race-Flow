@@ -4,7 +4,7 @@ using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
 {
-    public class RaceCategoryRepository : RaceRepository<RaceCategory>, IRaceCategoryRepository
+    public class RaceCategoryRepository : BaseRepository<RaceCategory>, IRaceCategoryRepository
     {
         private readonly RaceDbContext _context;
         public RaceCategoryRepository(RaceDbContext raceDbContext) : base(raceDbContext)

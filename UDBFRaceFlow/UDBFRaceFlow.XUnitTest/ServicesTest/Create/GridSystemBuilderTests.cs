@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
-using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Create;
-using UDBFRaceFlow.Application.Services;
+using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Create;
+using UDBFRaceFlow.Application.Services.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 

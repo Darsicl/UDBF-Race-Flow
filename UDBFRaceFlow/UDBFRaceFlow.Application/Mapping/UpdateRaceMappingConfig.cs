@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using UDBFRaceFlow.Application.Dto.Request.Update;
+using UDBFRaceFlow.Application.Dto.Request.Race.Update;
 using UDBFRaceFlow.Domain.Entities.Race;
 
 namespace UDBFRaceFlow.Application.Mapping

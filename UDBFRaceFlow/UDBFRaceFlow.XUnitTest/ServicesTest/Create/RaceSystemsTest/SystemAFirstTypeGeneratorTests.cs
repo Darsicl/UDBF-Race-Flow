@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
-using UDBFRaceFlow.Application.Dto.Request.Create;
+using UDBFRaceFlow.Application.Dto.Request.Race.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
-using UDBFRaceFlow.Application.Services.RaceSystems.SystemA;
+using UDBFRaceFlow.Application.Services.Race.Create.RaceSystems.SystemA;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
