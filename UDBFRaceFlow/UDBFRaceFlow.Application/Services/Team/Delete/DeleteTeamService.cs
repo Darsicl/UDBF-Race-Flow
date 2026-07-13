@@ -35,11 +35,11 @@ namespace UDBFRaceFlow.Application.Services.Team.Delete
                 return validationResult;
             }
 
-            var team = await _teamDataRepository.GetByIdAsync(teamDto.TeamId, cancellationToken);
+            var team = await _teamDataRepository.GetByIdAsync(teamDto.Id, cancellationToken);
 
             if (team is null)
             {
-                string errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(TeamData), teamDto.TeamId);
+                string errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(TeamData), teamDto.Id);
                 _logger.LogError(errorMsg);
                 return Result.Fail(new Error(errorMsg));
             }

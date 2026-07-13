@@ -8,7 +8,7 @@ namespace UDBFRaceFlow.Application.Services.Team.Delete
     {
         public DeleteTeamDtoValidator()
         {
-            RuleFor(x => x.TeamId)
+            RuleFor(x => x.Id)
                 .NotEmpty()
                 .WithMessage(Messages.Error_PropertyIsRequired);
         }

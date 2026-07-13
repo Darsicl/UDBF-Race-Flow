@@ -13,15 +13,15 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
     public class UpdateRaceServiceTests
     {
         private readonly IRaceDataRepository _raceDataRepositoryMock;
-        private readonly ILogger<UpdateRaceService> _loggerMock;
-        private readonly UpdateRaceService _sut;
+        private readonly ILogger<UpdateRaceDelayService> _loggerMock;
+        private readonly UpdateRaceDelayService _sut;
 
         public UpdateRaceServiceTests()
         {
             _raceDataRepositoryMock = Substitute.For<IRaceDataRepository>();
-            _loggerMock = Substitute.For<ILogger<UpdateRaceService>>();
+            _loggerMock = Substitute.For<ILogger<UpdateRaceDelayService>>();
 
-            _sut = new UpdateRaceService(_loggerMock, _raceDataRepositoryMock);
+            _sut = new UpdateRaceDelayService(_loggerMock, _raceDataRepositoryMock);
         }
 
         [Fact]

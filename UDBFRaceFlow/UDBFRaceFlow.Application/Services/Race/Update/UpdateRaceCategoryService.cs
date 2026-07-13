@@ -1,7 +1,9 @@
 ﻿using FluentResults;
+using FluentValidation;
 using Mapster;
 using Microsoft.Extensions.Logging;
 using UDBFRaceFlow.Application.Dto.Request.Race.Update;
+using UDBFRaceFlow.Application.Extensions.ValidatorExtensions;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Update;
 using UDBFRaceFlow.Domain.Entities.Race;
@@ -13,15 +15,23 @@ namespace UDBFRaceFlow.Application.Services.Race.Update
     {
         private readonly IRaceCategoryRepository _raceCategoryRepository;
         private readonly ILogger<UpdateRaceCategoryService> _logger;
+        private readonly IValidator<UpdateCategoryDetailsDto> _validator;
 
-        public UpdateRaceCategoryService(IRaceCategoryRepository raceCategoryRepository, ILogger<UpdateRaceCategoryService> logger)
+        public UpdateRaceCategoryService(IRaceCategoryRepository raceCategoryRepository, ILogger<UpdateRaceCategoryService> logger, IValidator<UpdateCategoryDetailsDto> validator)
         {
             _raceCategoryRepository = raceCategoryRepository;
             _logger = logger;
+            _validator = validator;
         }
 
         public async Task<Result> UpdateCategoryDetails(UpdateCategoryDetailsDto categoryDetailsDto, CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateDtoAsync(categoryDetailsDto, cancellationToken);
+            if (validationResult.IsFailed)
+            {
+                return validationResult;
+            }
+
             var category = await _raceCategoryRepository.GetByIdAsync(categoryDetailsDto.CategoryId, cancellationToken);
 
             if (category is null)
@@ -33,7 +43,7 @@ namespace UDBFRaceFlow.Application.Services.Race.Update
 
             categoryDetailsDto.Adapt(category);
 
-            var checkCategory = await _raceCategoryRepository.IsCategoryUnique(category, cancellationToken);
+            var checkCategory = await _raceCategoryRepository.IsCategoryUniqueAsync(category, cancellationToken);
 
             if (checkCategory)
             {

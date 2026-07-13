@@ -34,5 +34,10 @@ namespace UDBFRaceFlow.Domain.Entities.Race
         public Guid TeamId { get; set; }
 
         public TeamData Team { get; set; } = null!;
+
+        public void ChangeTeam(Guid teamId)
+        {
+            TeamId = teamId;
+        }
     }
 }

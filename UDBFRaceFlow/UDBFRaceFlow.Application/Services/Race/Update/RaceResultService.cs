@@ -1,7 +1,9 @@
 ﻿using FluentResults;
+using FluentValidation;
 using Mapster;
 using Microsoft.Extensions.Logging;
 using UDBFRaceFlow.Application.Dto.Request.Race.Update;
+using UDBFRaceFlow.Application.Extensions.ValidatorExtensions;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Update;
 using UDBFRaceFlow.Domain.Entities.Race;
@@ -14,14 +16,22 @@ namespace UDBFRaceFlow.Application.Services.Race.Update
     {
         private readonly IRaceDataRepository _raceDataRepository;
         private readonly ILogger<RaceResultService> _logger;
-        public RaceResultService(IRaceDataRepository raceDataRepository, ILogger<RaceResultService> logger)
+        private readonly IValidator<UpdateLaneResultDto> _validator;
+        public RaceResultService(IRaceDataRepository raceDataRepository, ILogger<RaceResultService> logger, IValidator<UpdateLaneResultDto> validator)
         {
             _raceDataRepository = raceDataRepository;
             _logger = logger;
+            _validator = validator;
         }
 
         public async Task<Result> UpdateLaneResult(UpdateLaneResultDto laneResultDto, CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateDtoAsync(laneResultDto, cancellationToken);
+            if (validationResult.IsFailed)
+            {
+                return validationResult;
+            }
+
             var race = await _raceDataRepository.GetRaceWithLanesAsync(laneResultDto.RaceId, cancellationToken);
 
             if (race is null)

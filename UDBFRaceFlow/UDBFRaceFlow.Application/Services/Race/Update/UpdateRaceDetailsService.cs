@@ -1,7 +1,9 @@
 ﻿using FluentResults;
+using FluentValidation;
 using Mapster;
 using Microsoft.Extensions.Logging;
 using UDBFRaceFlow.Application.Dto.Request.Race.Update;
+using UDBFRaceFlow.Application.Extensions.ValidatorExtensions;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Update;
 using UDBFRaceFlow.Domain.Entities.Race;
@@ -9,38 +11,29 @@ using UDBFRaceFlow.Domain.Resources;
 
 namespace UDBFRaceFlow.Application.Services.Race.Update
 {
-    public class UpdateRaceService : IUpdateRaceService
+    public class UpdateRaceDetailsService : IUpdateRaceDetailsService
     {
         private readonly IRaceDataRepository _raceDataRepository;
-        private readonly ILogger<UpdateRaceService> _logger;
+        private readonly ILogger<UpdateRaceDetailsService> _logger;
+        private readonly IValidator<UpdateRaceDetailsDto> _validator;
 
-        public UpdateRaceService(ILogger<UpdateRaceService> logger, IRaceDataRepository raceDataRepository)
+        public UpdateRaceDetailsService(IRaceDataRepository raceDataRepository,
+ILogger<UpdateRaceDetailsService> logger,
+IValidator<UpdateRaceDetailsDto> validator)
         {
-            _logger = logger;
             _raceDataRepository = raceDataRepository;
-        }
-
-
-
-        public async Task<Result> UpdateRaceDelay(RaceDelayDto raceDelayDto, CancellationToken cancellationToken = default)
-        {
-            var date = raceDelayDto.DelayDay.ToDateTime(TimeOnly.MinValue);
-            var races = await _raceDataRepository.GetRacesByDayForDelayAsync(date, cancellationToken);
-
-            if (!races.Any())
-            {
-                return Result.Ok();
-            }
-
-            races.ForEach(r => r.RaceTime = r.OriginalDateTime + raceDelayDto.Delay);
-
-            await _raceDataRepository.SaveChangesAsync(cancellationToken);
-
-            return Result.Ok();
+            _logger = logger;
+            _validator = validator;
         }
 
         public async Task<Result> UpdateRaceDetails(UpdateRaceDetailsDto raceDetailsDto, CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateDtoAsync(raceDetailsDto, cancellationToken);
+            if (validationResult.IsFailed)
+            {
+                return validationResult;
+            }
+
             var race = await _raceDataRepository.GetByIdAsync(raceDetailsDto.RaceId, cancellationToken);
 
             if (race is null)
@@ -79,24 +72,6 @@ namespace UDBFRaceFlow.Application.Services.Race.Update
                 _logger.LogError(errorMsg);
                 return Result.Fail(new Error(errorMsg));
             }
-
-            await _raceDataRepository.SaveChangesAsync(cancellationToken);
-
-            return Result.Ok();
-        }
-
-        public async Task<Result> UpdateRaceStatus(UpdateStatusDto statusDto, CancellationToken cancellationToken = default)
-        {
-            var race = await _raceDataRepository.GetByIdAsync(statusDto.RaceId, cancellationToken);
-
-            if (race is null)
-            {
-                string errorMsg = string.Format(Messages.Error_EntityWithIdNotFound, nameof(RaceData), statusDto.RaceId);
-                _logger.LogError(errorMsg);
-                return Result.Fail(new Error(errorMsg));
-            }
-
-            race.RaceStatus = statusDto.RaceStatus;
 
             await _raceDataRepository.SaveChangesAsync(cancellationToken);
 

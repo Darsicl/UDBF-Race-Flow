@@ -42,7 +42,7 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
             // Assert
             result.IsFailed.Should().BeTrue();
 
-            await _raceCategoryRepositoryMock.DidNotReceiveWithAnyArgs().IsCategoryUnique(Arg.Any<RaceCategory>(), token);
+            await _raceCategoryRepositoryMock.DidNotReceiveWithAnyArgs().IsCategoryUniqueAsync(Arg.Any<RaceCategory>(), token);
             await _raceCategoryRepositoryMock.DidNotReceive().SaveChangesAsync(token);
         }
 
@@ -69,7 +69,7 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
                 .Returns(Task.FromResult(existingCategory));
 
             _raceCategoryRepositoryMock
-                .IsCategoryUnique(existingCategory, token)
+                .IsCategoryUniqueAsync(existingCategory, token)
                 .Returns(Task.FromResult(true));
 
             // Act
@@ -105,7 +105,7 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
                 .Returns(Task.FromResult(existingCategory));
 
             _raceCategoryRepositoryMock
-                .IsCategoryUnique(existingCategory, token)
+                .IsCategoryUniqueAsync(existingCategory, token)
                 .Returns(Task.FromResult(false));
 
             // Act
