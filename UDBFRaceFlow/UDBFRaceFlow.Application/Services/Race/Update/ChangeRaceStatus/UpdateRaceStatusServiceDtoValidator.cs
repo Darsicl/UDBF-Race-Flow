@@ -2,7 +2,7 @@
 using UDBFRaceFlow.Application.Dto.Request.Race.Update;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.Race.Update.RaceStatus
+namespace UDBFRaceFlow.Application.Services.Race.Update.ChangeRaceStatus
 {
     public class UpdateRaceStatusServiceDtoValidator : AbstractValidator<UpdateStatusDto>
     {

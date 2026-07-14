@@ -2,12 +2,13 @@
 using NSubstitute;
 using UDBFRaceFlow.Application.Dto.Request.Race.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
+using UDBFRaceFlow.Application.Services.Race.Create.RaceSystems;
 using UDBFRaceFlow.Application.Services.Race.Create.RaceSystems.SystemA;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Race.Create.RaceSystemsTest
 {
     public class SystemAFirstTypeGeneratorTests
     {
@@ -22,8 +23,8 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest
             _raceDataRepoMock = Substitute.For<IRaceDataRepository>();
             _loggerMock = Substitute.For<ILogger<SystemAFirstTypeGenerator>>();
 
-            var raceCreationValidationMock = Substitute.For<FluentValidation.IValidator<CreateRaceDto>>();
-            _validatorMock = new SystemADtoValidator(raceCreationValidationMock);
+            var baseRaceValidator = new BaseRaceValidator(_raceDataRepoMock);
+            _validatorMock = new SystemADtoValidator(baseRaceValidator);
 
             _sut = new SystemAFirstTypeGenerator(
                 _raceCategoryRepoMock,

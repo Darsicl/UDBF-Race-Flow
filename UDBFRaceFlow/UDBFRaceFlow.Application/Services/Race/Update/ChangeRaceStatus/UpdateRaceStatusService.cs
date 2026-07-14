@@ -8,7 +8,7 @@ using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Update;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Resources;
 
-namespace UDBFRaceFlow.Application.Services.Race.Update.RaceStatus
+namespace UDBFRaceFlow.Application.Services.Race.Update.ChangeRaceStatus
 {
     public class UpdateRaceStatusService : IUpdateRaceStatusService
     {

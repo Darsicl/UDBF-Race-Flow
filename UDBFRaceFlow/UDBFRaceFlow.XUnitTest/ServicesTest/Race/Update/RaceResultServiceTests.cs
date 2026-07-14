@@ -1,34 +1,79 @@
 ﻿using FluentAssertions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using UDBFRaceFlow.Application.Dto.Request.Race.Update;
-using UDBFRaceFlow.Application.Dto.Request.Update;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Services.Race.Update.RaceResult;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Race.Update
 {
     public class RaceResultServiceTests
     {
         private readonly IRaceDataRepository _raceDataRepositoryMock;
         private readonly ILogger<RaceResultService> _loggerMock;
+        private readonly IValidator<UpdateLaneResultDto> _validatorMock;
         private readonly RaceResultService _sut;
 
         public RaceResultServiceTests()
         {
             _raceDataRepositoryMock = Substitute.For<IRaceDataRepository>();
             _loggerMock = Substitute.For<ILogger<RaceResultService>>();
+            _validatorMock = Substitute.For<IValidator<UpdateLaneResultDto>>();
 
-            _sut = new RaceResultService(_raceDataRepositoryMock, _loggerMock);
+            _sut = new RaceResultService(_raceDataRepositoryMock, _loggerMock, _validatorMock);
+        }
+
+        [Fact]
+        public async Task UpdateLaneResult_ShouldReturnFail_WhenValidationFails()
+        {
+            // Arrange
+            var token = TestContext.Current.CancellationToken;
+            var dto = new UpdateLaneResultDto(Guid.NewGuid(), new List<RaceResultDto>(), RaceStatus.Finished);
+
+            var validationResult = new FluentValidation.Results.ValidationResult(new[]
+            {
+                new FluentValidation.Results.ValidationFailure("RaceId", "Race ID is required")
+            });
+
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(validationResult));
+
+            // Act
+            var result = await _sut.UpdateLaneResult(dto, token);
+
+            // Assert
+            result.IsFailed.Should().BeTrue();
+            await _raceDataRepositoryMock.DidNotReceive().GetRaceWithLanesAsync(Arg.Any<Guid>(), token);
+            await _raceDataRepositoryMock.DidNotReceive().SaveChangesAsync(token);
+        }
+
+        [Fact]
+        public async Task UpdateLaneResult_ShouldReturnFail_WhenRaceNotFound()
+        {
+            // Arrange
+            var token = TestContext.Current.CancellationToken;
+            var raceId = Guid.NewGuid();
+            var dto = new UpdateLaneResultDto(raceId, new List<RaceResultDto>(), RaceStatus.Finished);
+
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(new FluentValidation.Results.ValidationResult()));
+            _raceDataRepositoryMock.GetRaceWithLanesAsync(raceId, token).Returns(Task.FromResult<RaceData>(null!));
+
+            // Act
+            var result = await _sut.UpdateLaneResult(dto, token);
+
+            // Assert
+            result.IsFailed.Should().BeTrue();
+            await _raceDataRepositoryMock.DidNotReceive().SaveChangesAsync(token);
         }
 
         [Fact]
         public async Task UpdateLaneResult_ShouldCalculatePlacesCorrectly_WhenRaceStatusIsFinished()
         {
             // Arrange
+            var token = TestContext.Current.CancellationToken;
             var raceId = Guid.NewGuid();
             var laneId1 = Guid.NewGuid();
             var laneId2 = Guid.NewGuid();
@@ -40,9 +85,9 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
                 RaceStatus = RaceStatus.InProgress,
                 Lanes = new List<LaneData>
                 {
-                    new LaneData { Id = laneId1, FinishTime = TimeSpan.Zero},
-                    new LaneData { Id = laneId2, FinishTime = TimeSpan.Zero},
-                    new LaneData { Id = laneId3, FinishTime = TimeSpan.Zero }
+                    new LaneData { Id = laneId1 },
+                    new LaneData { Id = laneId2 },
+                    new LaneData { Id = laneId3 }
                 }
             };
 
@@ -55,12 +100,11 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
 
             var dto = new UpdateLaneResultDto(raceId, laneResults, RaceStatus.Finished);
 
-            _raceDataRepositoryMock
-                .GetRaceWithLanesAsync(raceId, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(existingRace));
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(new FluentValidation.Results.ValidationResult()));
+            _raceDataRepositoryMock.GetRaceWithLanesAsync(raceId, token).Returns(Task.FromResult(existingRace));
 
             // Act
-            var result = await _sut.UpdateLaneResult(dto, CancellationToken.None);
+            var result = await _sut.UpdateLaneResult(dto, token);
 
             // Assert
             result.IsSuccess.Should().BeTrue();
@@ -70,13 +114,14 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
             existingRace.Lanes.First(l => l.Id == laneId1).FinishPlace.Should().Be(2);
             existingRace.Lanes.First(l => l.Id == laneId3).FinishPlace.Should().Be(3);
 
-            await _raceDataRepositoryMock.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+            await _raceDataRepositoryMock.Received(1).SaveChangesAsync(token);
         }
 
         [Fact]
         public async Task UpdateLaneResult_ShouldIgnoreUnconfirmedOrZeroTimeLanes_WhenCalculatingPlaces()
         {
             // Arrange
+            var token = TestContext.Current.CancellationToken;
             var raceId = Guid.NewGuid();
             var confirmedLaneId = Guid.NewGuid();
             var zeroTimeLaneId = Guid.NewGuid();
@@ -85,11 +130,12 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
             var existingRace = new RaceData
             {
                 Id = raceId,
+                RaceStatus = RaceStatus.InProgress,
                 Lanes = new List<LaneData>
                 {
-                    new LaneData { Id = confirmedLaneId, FinishTime = TimeSpan.Zero},
-                    new LaneData { Id = zeroTimeLaneId, FinishTime = TimeSpan.Zero},
-                    new LaneData { Id = dnsLaneId, FinishTime = TimeSpan.Zero}
+                    new LaneData { Id = confirmedLaneId },
+                    new LaneData { Id = zeroTimeLaneId },
+                    new LaneData { Id = dnsLaneId }
                 }
             };
 
@@ -102,12 +148,11 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
 
             var dto = new UpdateLaneResultDto(raceId, laneResults, RaceStatus.Finished);
 
-            _raceDataRepositoryMock
-                .GetRaceWithLanesAsync(raceId, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(existingRace));
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(new FluentValidation.Results.ValidationResult()));
+            _raceDataRepositoryMock.GetRaceWithLanesAsync(raceId, token).Returns(Task.FromResult(existingRace));
 
             // Act
-            var result = await _sut.UpdateLaneResult(dto, CancellationToken.None);
+            var result = await _sut.UpdateLaneResult(dto, token);
 
             // Assert
             result.IsSuccess.Should().BeTrue();
@@ -115,25 +160,8 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
             existingRace.Lanes.First(l => l.Id == confirmedLaneId).FinishPlace.Should().Be(1);
             existingRace.Lanes.First(l => l.Id == zeroTimeLaneId).FinishPlace.Should().BeNull();
             existingRace.Lanes.First(l => l.Id == dnsLaneId).FinishPlace.Should().BeNull();
-        }
 
-        [Fact]
-        public async Task UpdateLaneResult_ShouldReturnFail_WhenRaceNotFound()
-        {
-            // Arrange
-            var raceId = Guid.NewGuid();
-            var dto = new UpdateLaneResultDto(raceId, new List<RaceResultDto>(), RaceStatus.Finished);
-
-            _raceDataRepositoryMock
-                .GetRaceWithLanesAsync(raceId, Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult<RaceData>(null));
-
-            // Act
-            var result = await _sut.UpdateLaneResult(dto, CancellationToken.None);
-
-            // Assert
-            result.IsFailed.Should().BeTrue();
-            await _raceDataRepositoryMock.DidNotReceive().SaveChangesAsync(Arg.Any<CancellationToken>());
+            await _raceDataRepositoryMock.Received(1).SaveChangesAsync(token);
         }
     }
 }

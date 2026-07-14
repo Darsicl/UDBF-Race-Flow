@@ -1,27 +1,53 @@
 ﻿using FluentAssertions;
+using FluentValidation;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using UDBFRaceFlow.Application.Dto.Request.Update;
+using UDBFRaceFlow.Application.Dto.Request.Race.Update;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Services.Race.Update.RaceCategory;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Race.Update
 {
     public class UpdateRaceCategoryServiceTests
     {
         private readonly IRaceCategoryRepository _raceCategoryRepositoryMock;
         private readonly ILogger<UpdateRaceCategoryService> _loggerMock;
+        private readonly IValidator<UpdateCategoryDetailsDto> _validatorMock;
         private readonly UpdateRaceCategoryService _sut;
 
         public UpdateRaceCategoryServiceTests()
         {
             _raceCategoryRepositoryMock = Substitute.For<IRaceCategoryRepository>();
             _loggerMock = Substitute.For<ILogger<UpdateRaceCategoryService>>();
+            _validatorMock = Substitute.For<IValidator<UpdateCategoryDetailsDto>>();
 
-            _sut = new UpdateRaceCategoryService(_raceCategoryRepositoryMock, _loggerMock);
+            _sut = new UpdateRaceCategoryService(_raceCategoryRepositoryMock, _loggerMock, _validatorMock);
+        }
+
+        [Fact]
+        public async Task UpdateCategoryDetails_ShouldReturnFail_WhenValidationFails()
+        {
+            // Arrange
+            var token = TestContext.Current.CancellationToken;
+            var dto = new UpdateCategoryDetailsDto(Guid.NewGuid(), RaceAge.Senior40, 2000, BoatSize.D10, GenderCategory.Open);
+
+            var validationResult = new FluentValidation.Results.ValidationResult(new[]
+            {
+                new FluentValidation.Results.ValidationFailure("Distance", "Distance must be positive")
+            });
+
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(validationResult));
+
+            // Act
+            var result = await _sut.UpdateCategoryDetails(dto, token);
+
+            // Assert
+            result.IsFailed.Should().BeTrue();
+            await _raceCategoryRepositoryMock.DidNotReceive().GetByIdAsync(Arg.Any<Guid>(), token);
+            await _raceCategoryRepositoryMock.DidNotReceive().SaveChangesAsync(token);
         }
 
         [Fact]
@@ -32,9 +58,8 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
             var categoryId = Guid.NewGuid();
             var dto = new UpdateCategoryDetailsDto(categoryId, RaceAge.Senior40, 2000, BoatSize.D10, GenderCategory.Open);
 
-            _raceCategoryRepositoryMock
-                .GetByIdAsync(categoryId, token)
-                .Returns(Task.FromResult<RaceCategory>(null));
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(new FluentValidation.Results.ValidationResult()));
+            _raceCategoryRepositoryMock.GetByIdAsync(categoryId, token).Returns(Task.FromResult<RaceCategory>(null!));
 
             // Act
             var result = await _sut.UpdateCategoryDetails(dto, token);
@@ -64,13 +89,10 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
 
             var dto = new UpdateCategoryDetailsDto(categoryId, RaceAge.Premier, 1000, BoatSize.D10, GenderCategory.Open);
 
-            _raceCategoryRepositoryMock
-                .GetByIdAsync(categoryId, token)
-                .Returns(Task.FromResult(existingCategory));
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(new FluentValidation.Results.ValidationResult()));
+            _raceCategoryRepositoryMock.GetByIdAsync(categoryId, token).Returns(Task.FromResult(existingCategory));
 
-            _raceCategoryRepositoryMock
-                .IsCategoryUniqueAsync(existingCategory, token)
-                .Returns(Task.FromResult(true));
+            _raceCategoryRepositoryMock.IsCategoryUniqueAsync(existingCategory, token).Returns(Task.FromResult(true));
 
             // Act
             var result = await _sut.UpdateCategoryDetails(dto, token);
@@ -100,13 +122,10 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Update
 
             var dto = new UpdateCategoryDetailsDto(categoryId, RaceAge.Premier, 2000, BoatSize.D10, GenderCategory.Open);
 
-            _raceCategoryRepositoryMock
-                .GetByIdAsync(categoryId, token)
-                .Returns(Task.FromResult(existingCategory));
+            _validatorMock.ValidateAsync(dto, token).Returns(Task.FromResult(new FluentValidation.Results.ValidationResult()));
+            _raceCategoryRepositoryMock.GetByIdAsync(categoryId, token).Returns(Task.FromResult(existingCategory));
 
-            _raceCategoryRepositoryMock
-                .IsCategoryUniqueAsync(existingCategory, token)
-                .Returns(Task.FromResult(false));
+            _raceCategoryRepositoryMock.IsCategoryUniqueAsync(existingCategory, token).Returns(Task.FromResult(false));
 
             // Act
             var result = await _sut.UpdateCategoryDetails(dto, token);

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
+using UDBFRaceFlow.Application.Interfaces;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 
 namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
 {
-    public class RaceDataRepository : BaseRepository<RaceData>, IRaceDataRepository
+    public class RaceDataRepository : BaseRepository<RaceData>, IBaseRepository<RaceData>
     {
         private readonly RaceDbContext _context;
         public RaceDataRepository(RaceDbContext raceDbContext) : base(raceDbContext)

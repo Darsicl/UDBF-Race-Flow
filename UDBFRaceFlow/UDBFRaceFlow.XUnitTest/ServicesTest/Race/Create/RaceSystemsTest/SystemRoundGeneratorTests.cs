@@ -5,12 +5,13 @@ using UDBFRaceFlow.Application.Dto.Request.Race.Create;
 using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
 using UDBFRaceFlow.Application.Interfaces.ServiceContracts.Race.Create;
 using UDBFRaceFlow.Application.Mapping;
+using UDBFRaceFlow.Application.Services.Race.Create.RaceSystems;
 using UDBFRaceFlow.Application.Services.Race.Create.RaceSystems.SystemRound;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Race.Create.RaceSystemsTest
 {
     public class SystemRoundGeneratorTests
     {
@@ -28,8 +29,8 @@ namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create.RaceSystemsTest
             _loggerMock = Substitute.For<ILogger<SystemRoundGenerator>>();
             _roundGeneratorMock = Substitute.For<IRoundGenerator>();
 
-            var raceCreationValidatorMock = Substitute.For<FluentValidation.IValidator<CreateRaceDto>>();
-            _validator = new SystemRoundDtoValidator(raceCreationValidatorMock);
+            var baseRaceValidator = new BaseRaceValidator(_raceRepoMock);
+            _validator = new SystemRoundDtoValidator(baseRaceValidator);
 
             var roundGenerators = new List<IRoundGenerator> { _roundGeneratorMock };
 

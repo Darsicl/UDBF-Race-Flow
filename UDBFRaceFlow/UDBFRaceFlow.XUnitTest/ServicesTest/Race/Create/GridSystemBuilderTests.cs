@@ -4,7 +4,7 @@ using UDBFRaceFlow.Application.Services.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.ServicesTest.Create
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Race.Create
 {
     public class GridSystemBuilderTests
     {

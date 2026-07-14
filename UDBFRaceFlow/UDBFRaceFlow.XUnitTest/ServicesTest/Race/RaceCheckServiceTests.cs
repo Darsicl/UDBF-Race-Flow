@@ -9,7 +9,7 @@ using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 using Xunit;
 
-namespace UDBFRaceFlow.XUnitTest.ServicesTest
+namespace UDBFRaceFlow.XUnitTest.ServicesTest.Race
 {
     public class RaceCheckServiceTests
     {
