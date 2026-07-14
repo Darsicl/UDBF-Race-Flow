@@ -180,4 +180,10 @@
   <data name="Error PropertyShouldBeEqual" xml:space="preserve">
     <value>{0} property should be equal {1}</value>
   </data>
+  <data name="Error DeleteIsForbidden" xml:space="preserve">
+    <value>Cannot delete "{0}" because it is currently assigned to an active race</value>
+  </data>
+  <data name="Error EditIsForbidden" xml:space="preserve">
+    <value>Cannot edit race number "{0}" because it is currently an active race</value>
+  </data>
 </root>

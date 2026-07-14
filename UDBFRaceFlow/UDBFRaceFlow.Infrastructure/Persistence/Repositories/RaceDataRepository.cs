@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UDBFRaceFlow.Application.Interfaces.RepositoryContracts;
+using UDBFRaceFlow.Application.Interfaces;
 using UDBFRaceFlow.Domain.Entities.Race;
 using UDBFRaceFlow.Domain.Enums;
 
 namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
 {
-    public class RaceDataRepository : RaceRepository<RaceData>, IRaceDataRepository
+    public class RaceDataRepository : BaseRepository<RaceData>, IBaseRepository<RaceData>
     {
         private readonly RaceDbContext _context;
         public RaceDataRepository(RaceDbContext raceDbContext) : base(raceDbContext)
@@ -52,6 +52,11 @@ namespace UDBFRaceFlow.Infrastructure.Persistence.Repositories
         public async Task<bool> IsRaceNumberUniqueAsync(int raceNumber, CancellationToken cancellationToken)
         {
             return await _context.Races.AnyAsync(r => r.RaceNumber == raceNumber, cancellationToken);
+        }
+
+        public async Task<bool> HasActiveRacesWithTeamAsync(Guid TeamId, CancellationToken cancellationToken)
+        {
+            return await _context.Races.AnyAsync(r => r.Lanes.Any(l => l.TeamId == TeamId), cancellationToken);
         }
     }
 }

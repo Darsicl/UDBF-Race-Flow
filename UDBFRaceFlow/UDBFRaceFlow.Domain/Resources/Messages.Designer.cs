@@ -88,6 +88,24 @@ namespace UDBFRaceFlow.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete &quot;{0}&quot; because it is currently assigned to an active race.
+        /// </summary>
+        public static string Error_DeleteIsForbidden {
+            get {
+                return ResourceManager.GetString("Error DeleteIsForbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot edit race number &quot;{0}&quot; because it is currently an active race.
+        /// </summary>
+        public static string Error_EditIsForbidden {
+            get {
+                return ResourceManager.GetString("Error EditIsForbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Entity {0} with Id {1} not found.
         /// </summary>
         public static string Error_EntityWithIdNotFound {
